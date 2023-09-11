@@ -1,0 +1,20 @@
+pluginManagement {
+    println "project.root start"
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+    println "project.root end"
+}
+println("settings.gradle start")
+rootProject.name = "My ApplicationTest"
+include ':app'
+println("settings.gradle end")
