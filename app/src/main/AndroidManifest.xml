@@ -17,6 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ProgressBarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ApkActivity"
             android:exported="false" />
         <activity

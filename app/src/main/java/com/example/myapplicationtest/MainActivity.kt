@@ -5,8 +5,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import com.example.myapplicationtest.ktx.showToast
+import com.example.myapplicationtest.ktx.startActivityKt
 import com.permissionx.guolindev.PermissionX
 
 class MainActivity : AppCompatActivity() {
@@ -15,12 +18,17 @@ class MainActivity : AppCompatActivity() {
         return@lazy findViewById<Button>(R.id.btc_apk) as Button
     }
 
+    private val btcView: Button by lazy {
+        return@lazy findViewById<Button>(R.id.btc_view) as Button
+    }
+
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.button).setOnClickListener {
-            startActivity(Intent(this, VideoActivity::class.java))
+            startActivityKt<VideoActivity>()
         }
 
         btcApk.setOnClickListener {
@@ -31,6 +39,11 @@ class MainActivity : AppCompatActivity() {
                 requestPers()
             }
         }
+
+        btcView.setOnClickListener {
+            startActivityKt<ViewListActivity>()
+        }
+
     }
 
     fun requestPers() {
@@ -39,13 +52,9 @@ class MainActivity : AppCompatActivity() {
             .request { allGranted, _, deniedList ->
                 if (allGranted) {
                     ApkActivity.toActivity(this)
-                    Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
+                    "All permissions are granted".showToast(this, Toast.LENGTH_LONG)
                 } else {
-                    Toast.makeText(
-                        this,
-                        "These permissions are denied: $deniedList",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    "These permissions are denied: $deniedList".showToast(this, Toast.LENGTH_LONG)
                 }
             }
     }
