@@ -1,6 +1,7 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.base
 
 import android.app.Application
+import android.content.Context
 import com.danikula.videocache.Logger
 import xyz.doikki.videoplayer.BuildConfig
 import xyz.doikki.videoplayer.player.VideoViewConfig
@@ -9,6 +10,8 @@ import xyz.doikki.videoplayer.player.VideoViewManager
 class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+        mContext = applicationContext
+
         //播放器配置，注意：此为全局配置，按需开启
         VideoViewManager.setConfig(
             VideoViewConfig.newBuilder()
@@ -49,4 +52,11 @@ class MyApplication: Application() {
         // VideoCache 日志
         Logger.setDebug(BuildConfig.DEBUG)
     }
+
+
+    companion object {
+        lateinit var mContext: Context
+    }
+
+
 }
