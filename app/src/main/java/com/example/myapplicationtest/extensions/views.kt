@@ -1,4 +1,3 @@
-
 import android.os.Build
 import android.view.View
 import android.view.ViewTreeObserver
@@ -39,4 +38,10 @@ fun View.hide() {
 
 fun View.invisible() {
     visibility = View.INVISIBLE
+}
+
+fun View.click(a: () -> Unit) {
+    setOnClickListener {
+        a.invoke()
+    }
 }

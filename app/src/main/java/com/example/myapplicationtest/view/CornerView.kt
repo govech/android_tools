@@ -42,15 +42,9 @@ class CornerView @JvmOverloads constructor(
 
         canvas.drawRect(0f, 0f, allwidth / 2, allheight / 2, paintRect)
         val rectf = RectF(0f, 0f, allwidth, allheight)
-        canvas.drawArc(rectf, 180f, 90f, true, paintCircle)
+        canvas.drawArc(rectf, 179f, 92f, true, paintCircle)
 //        canvas.drawArc(rectf, 0f, 90f, true, paintCircle)
     }
 
-
-    private fun getDisplayWidth(): Int {
-        val displayMetrics = resources.displayMetrics
-        val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
-        return screenWidthDp.roundToInt()
-    }
 
 }
