@@ -19,8 +19,8 @@ proguard/
 .navigation/
 lint/
 google-services.json
-*.jks
-*.properties
+#*.jks
+#*.properties
 Thumbs.db
 cmake/
 obj/
