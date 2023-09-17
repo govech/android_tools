@@ -20,7 +20,7 @@ proguard/
 lint/
 google-services.json
 #*.jks
-#*.properties
+*.properties
 Thumbs.db
 cmake/
 obj/
