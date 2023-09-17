@@ -27,7 +27,7 @@ obj/
 *.kotlin_module
 .build/
 ._*
-gradle/wrapper/gradle-wrapper.jar
+#gradle/wrapper/gradle-wrapper.jar
 
 
 
