@@ -21,6 +21,22 @@ fun String.showToast(context: Context, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, this, duration).show()
 }
 
+
+fun <T> T.apply1(block: T.() -> Unit): T {
+    block()
+    return this
+}
+
+
+inline fun <T, R> T.run1(block: T.() -> R): R {
+    return block()
+}
+
+inline fun <T, R> with1(ass: T, block: T.() -> R): R {
+    return ass.block()
+}
+
+
 //Toast
 fun Int.showToast(context: Context, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, this, duration).show()
@@ -47,3 +63,6 @@ fun Context.dp2px(value: Float): Int = (density * value).toInt()
 
 //px 转为 dp
 fun Context.px2dp(value: Int): Float = value.toFloat() / density
+
+
+

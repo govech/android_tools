@@ -14,10 +14,10 @@ class QuickAdapter<T>(
 ) : RecyclerView.Adapter<QuickAdapter<T>.ViewHolder>() {
 
 
-    private var ItemClickListener: ((View, T) -> Unit)? = null
+    private var onItemClickListener: ((View, T) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (View, T) -> Unit) {
-        this.ItemClickListener = listener
+        onItemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,11 +34,11 @@ class QuickAdapter<T>(
         holder.bind(item)
     }
 
-    inner class ViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: T) {
-            bindView(itemView, item)
+            bindView(view, item)
             itemView.setOnClickListener {
-                ItemClickListener?.invoke(itemView, item)
+                onItemClickListener?.invoke(view, item)
             }
         }
     }
