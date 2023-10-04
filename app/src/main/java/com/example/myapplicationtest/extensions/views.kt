@@ -1,6 +1,13 @@
 import android.os.Build
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplicationtest.base.IUiView
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 /**
  * Created by zyyoona7 on 2017/8/24.
@@ -32,13 +39,26 @@ fun View.show() {
     visibility = View.VISIBLE
 }
 
+fun View.isShow(): Boolean {
+    return visibility == View.VISIBLE
+}
+
 fun View.hide() {
     visibility = View.GONE
+}
+
+fun View.isHide(): Boolean {
+    return visibility == View.GONE
 }
 
 fun View.invisible() {
     visibility = View.INVISIBLE
 }
+
+fun View.isInvisible(): Boolean {
+    return visibility == View.INVISIBLE
+}
+
 
 fun View.click(a: () -> Unit) {
     setOnClickListener {

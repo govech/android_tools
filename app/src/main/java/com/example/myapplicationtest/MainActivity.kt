@@ -8,11 +8,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
+import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
+import com.example.myapplicationtest.vm.ApiViewModel
 import com.permissionx.guolindev.PermissionX
+import toast
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val btcApk: Button by lazy {
         return@lazy findViewById<Button>(R.id.btc_apk) as Button
@@ -22,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         return@lazy findViewById<Button>(R.id.btc_view) as Button
     }
 
+    private val mViewModel by viewModels<ApiViewModel>()
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +36,27 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             startActivityKt<VideoActivity>()
         }
+        findViewById<Button>(R.id.btc_normal).setOnClickListener {
+
+            launchWithLoadingAndCollect(
+                {
+                    mViewModel.requestNet()
+                }
+            ) {
+                onSuccess = {
+                    toast("成功:${it?.first()?.name}")
+                }
+                onComplete = {
+//                    toast("完成")
+                }
+                onError = {
+                    toast("失败${it.message}")
+                }
+
+            }
+
+        }
+
 
         btcApk.setOnClickListener {
             val boolean = PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -46,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun requestPers() {
+    private fun requestPers() {
         PermissionX.init(this)
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .request { allGranted, _, deniedList ->

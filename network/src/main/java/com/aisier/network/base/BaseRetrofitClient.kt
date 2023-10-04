@@ -15,8 +15,8 @@ abstract class BaseRetrofitClient {
 
     private val client: OkHttpClient by lazy {
         val builder = OkHttpClient.Builder()
-                .addInterceptor(getHttpLoggingInterceptor())
-                .connectTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
+            .addInterceptor(getHttpLoggingInterceptor())
+            .connectTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
         handleBuilder(builder)
         builder.build()
     }
@@ -35,10 +35,13 @@ abstract class BaseRetrofitClient {
 
     open fun <Service> getService(serviceClass: Class<Service>, baseUrl: String): Service {
         return Retrofit.Builder()
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(baseUrl)
-                .build()
-                .create(serviceClass)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(baseUrl)
+            .build()
+            .create(serviceClass)
     }
+
+    inline fun <reified T> create(baseUrl: String): T = getService(T::class.java, baseUrl)
+
 }
