@@ -28,6 +28,7 @@ interface IUiView : LifecycleOwner {
         completeCallback: (() -> Unit)? = null,
     ): Flow<ApiResponse<T>> {
         return flow {
+            kotlinx.coroutines.delay(2000)
             emit(requestBlock())
         }.onStart {
             startCallback?.invoke()

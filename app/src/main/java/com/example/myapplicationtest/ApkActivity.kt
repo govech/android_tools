@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.ktx.showToast
 
 @SuppressLint("WrongViewCast")
-class ApkActivity : AppCompatActivity() {
+class ApkActivity : BaseActivity() {
     private val recyclerView by lazy {
         return@lazy findViewById<RecyclerView>(R.id.recyclerView)
     }

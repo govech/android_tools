@@ -3,6 +3,8 @@ package com.example.myapplicationtest.base
 import android.app.Application
 import android.content.Context
 import com.danikula.videocache.Logger
+import com.dylanc.loadingstateview.LoadingStateView
+import com.example.myapplicationtest.loading.LoadingViewDelegate
 import xyz.doikki.videoplayer.BuildConfig
 import xyz.doikki.videoplayer.player.VideoViewConfig
 import xyz.doikki.videoplayer.player.VideoViewManager
@@ -51,6 +53,10 @@ class MyApplication: Application() {
 
         // VideoCache 日志
         Logger.setDebug(BuildConfig.DEBUG)
+
+        LoadingStateView.setViewDelegatePool{
+            register(LoadingViewDelegate())
+        }
     }
 
 
