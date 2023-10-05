@@ -1,37 +1,34 @@
 package com.example.myapplicationtest
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
+import com.example.myapplicationtest.databinding.ActivityApkBinding
+import com.example.myapplicationtest.ktx.inflate
 import com.example.myapplicationtest.ktx.showToast
 
-@SuppressLint("WrongViewCast")
 class ApkActivity : BaseActivity() {
-    private val recyclerView by lazy {
-        return@lazy findViewById<RecyclerView>(R.id.recyclerView)
-    }
 
+
+    private val binding by inflate(ActivityApkBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_apk)
         initRV()
     }
 
 
     private fun initRV() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         val list = ApkTool.getApplist(this)
 //        val myadapter = ApkListAdapter(this, list)
 //        recyclerView.adapter = myadapter
@@ -48,7 +45,7 @@ class ApkActivity : BaseActivity() {
             nameTv.text = item.appName
             Glide.with(this).load(item.icon).into(iconImg)
         }
-        recyclerView.adapter = myadapter
+        binding.recyclerView.adapter = myadapter
         myadapter.setOnItemClickListener { view, appInfoData ->
             val appInfo = appInfoData
             ApkTool.copyFileToTargetPath(appInfo.sourceDir, appInfo.appName)
