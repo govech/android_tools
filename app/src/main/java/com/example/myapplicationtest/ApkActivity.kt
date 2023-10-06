@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.databinding.ActivityApkBinding
-import com.example.myapplicationtest.ktx.inflate
+import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 
 class ApkActivity : BaseActivity() {
 
 
-    private val binding by inflate(ActivityApkBinding::inflate)
+    private val binding by binding(ActivityApkBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,12 @@ class ApkActivity : BaseActivity() {
 
     private fun initRV() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                LinearLayoutManager.VERTICAL
+            )
+        )
         val list = ApkTool.getApplist(this)
 //        val myadapter = ApkListAdapter(this, list)
 //        recyclerView.adapter = myadapter

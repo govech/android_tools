@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import click
-import com.aisier.network.toast
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityMainBinding
-import com.example.myapplicationtest.ktx.inflate
+import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.vm.ApiViewModel
@@ -17,7 +16,7 @@ import toast
 
 class MainActivity : BaseActivity() {
 
-    private val binding by inflate(ActivityMainBinding::inflate)
+    private val binding by binding(ActivityMainBinding::inflate)
 
 
     private val mViewModel by viewModels<ApiViewModel>()
