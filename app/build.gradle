@@ -53,6 +53,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'com.github.DylanCaiCoding.LoadingStateView:loadingstateview-ktx:4.1.0'
 
+    // https://www.yuque.com/razerdp/basepopup/aw4aq3（弹框）
+    implementation 'io.github.razerdp:BasePopup:3.2.1'
 
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"

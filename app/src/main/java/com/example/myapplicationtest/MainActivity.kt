@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import click
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityMainBinding
+import com.example.myapplicationtest.dialog.SimpleDialog
+import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
@@ -50,12 +52,15 @@ class MainActivity : BaseActivity() {
 
 
         binding.btcApk.click {
-            val boolean = PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            if (boolean) {
-                ApkActivity.toActivity(this)
-            } else {
-                requestPers()
+            val dialog = SimpleDialog(this).apply1 {
+                showPopupWindow()
             }
+//            val boolean = PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//            if (boolean) {
+//                ApkActivity.toActivity(this)
+//            } else {
+//                requestPers()
+//            }
         }
 
         binding.btcView.click {
