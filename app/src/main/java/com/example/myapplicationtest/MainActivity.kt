@@ -58,31 +58,32 @@ class MainActivity : BaseActivity() {
 
 
         binding.btcApk.click {
-//            val dialog = SimpleDialog(this).apply1 {
-//                showPopupWindow()
-//
-//            }
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {//Android11及以上
-//                //判断是否有权限
-//                if (Environment.isExternalStorageManager()) {
-//                    ApkActivity.toActivity(this)
-//                } else {
-//                    val intent: Intent = Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-//                    intent.data = Uri.parse("package:$packageName")
-//                    startActivityForResult(intent, 1024)
-//                }
-//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android6.0以上
-//                val boolean =
-//                    PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                if (boolean) {
-//                    ApkActivity.toActivity(this)
-//                } else {
-//                    requestPers()
-//                }
-//            } else {
-//                ApkActivity.toActivity(this)
-//            }
-//
+            val dialog = SimpleDialog(this) {
+                toast("你好")
+            }.apply1 {
+                showPopupWindow()
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {//Android11及以上
+                //判断是否有权限
+                if (Environment.isExternalStorageManager()) {
+                    ApkActivity.toActivity(this)
+                } else {
+                    val intent: Intent = Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                    intent.data = Uri.parse("package:$packageName")
+                    startActivityForResult(intent, 1024)
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android6.0以上
+                val boolean =
+                    PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (boolean) {
+                    ApkActivity.toActivity(this)
+                } else {
+                    requestPers()
+                }
+            } else {
+                ApkActivity.toActivity(this)
+            }
+
 
         }
 
