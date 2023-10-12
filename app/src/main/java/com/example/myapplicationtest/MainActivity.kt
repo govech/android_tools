@@ -1,7 +1,12 @@
 package com.example.myapplicationtest
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.widget.Toast
 import androidx.activity.viewModels
 import click
@@ -15,6 +20,7 @@ import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.vm.ApiViewModel
 import com.permissionx.guolindev.PermissionX
 import toast
+
 
 class MainActivity : BaseActivity() {
 
@@ -52,15 +58,32 @@ class MainActivity : BaseActivity() {
 
 
         binding.btcApk.click {
-            val dialog = SimpleDialog(this).apply1 {
-                showPopupWindow()
-            }
-//            val boolean = PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//            if (boolean) {
-//                ApkActivity.toActivity(this)
-//            } else {
-//                requestPers()
+//            val dialog = SimpleDialog(this).apply1 {
+//                showPopupWindow()
+//
 //            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {//Android11及以上
+//                //判断是否有权限
+//                if (Environment.isExternalStorageManager()) {
+//                    ApkActivity.toActivity(this)
+//                } else {
+//                    val intent: Intent = Intent(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+//                    intent.data = Uri.parse("package:$packageName")
+//                    startActivityForResult(intent, 1024)
+//                }
+//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//Android6.0以上
+//                val boolean =
+//                    PermissionX.isGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                if (boolean) {
+//                    ApkActivity.toActivity(this)
+//                } else {
+//                    requestPers()
+//                }
+//            } else {
+//                ApkActivity.toActivity(this)
+//            }
+//
+
         }
 
         binding.btcView.click {

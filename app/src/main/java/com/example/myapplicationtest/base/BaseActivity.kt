@@ -1,20 +1,10 @@
 package com.example.myapplicationtest.base
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.dylanc.loadingstateview.LoadingStateView
-import com.example.myapplicationtest.ktx.showToast
-import hide
-import isShow
 import logd
-import show
-import toast
-import kotlin.math.log
 
 open class BaseActivity : AppCompatActivity(), IUiView {
 
