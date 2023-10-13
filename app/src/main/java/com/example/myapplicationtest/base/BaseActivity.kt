@@ -3,6 +3,7 @@ package com.example.myapplicationtest.base
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import com.dylanc.loadingstateview.LoadingStateView
 import logd
 

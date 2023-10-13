@@ -1,5 +1,7 @@
 package com.example.myapplicationtest.base
 
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
@@ -15,7 +17,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-interface IUiView : LifecycleOwner {
+interface IUiView {
 
     fun showLoading()
 
@@ -39,7 +41,7 @@ interface IUiView : LifecycleOwner {
     /**
      * 这个方法只是简单的一个封装Loading的普通方法，不返回任何实体类
      */
-    fun IUiView.launchWithLoading(requestBlock: suspend () -> Unit) {
+    fun AppCompatActivity.launchWithLoading(requestBlock: suspend () -> Unit) {
         lifecycleScope.launch {
             flow {
                 emit(requestBlock())
@@ -54,7 +56,7 @@ interface IUiView : LifecycleOwner {
     /**
      * 请求不带Loading&&不需要声明LiveData
      */
-    fun <T> IUiView.launchAndCollect(
+    fun <T> AppCompatActivity.launchAndCollect(
         requestBlock: suspend () -> ApiResponse<T>,
         listenerBuilder: ResultBuilder<T>.() -> Unit,
     ) {
@@ -68,7 +70,7 @@ interface IUiView : LifecycleOwner {
     /**
      * 请求带Loading&&不需要声明LiveData
      */
-    fun <T> IUiView.launchWithLoadingAndCollect(
+    fun <T> AppCompatActivity.launchWithLoadingAndCollect(
         requestBlock: suspend () -> ApiResponse<T>,
         listenerBuilder: ResultBuilder<T>.() -> Unit,
     ) {
