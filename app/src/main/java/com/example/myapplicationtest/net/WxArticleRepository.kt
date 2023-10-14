@@ -2,7 +2,7 @@ package com.example.myapplicationtest.net
 
 import com.aisier.network.base.BaseRepository
 import com.aisier.network.entity.ApiResponse
-import com.example.myapplicationtest.bean.WxArticleBean
+import com.example.myapplicationtest.bean.HomeArtBean
 
 class WxArticleRepository : BaseRepository() {
 
@@ -10,7 +10,7 @@ class WxArticleRepository : BaseRepository() {
         RetrofitClient.service
     }
 
-    suspend fun fetchWxArticleFromNet(): ApiResponse<List<WxArticleBean>> {
+    suspend fun fetchWxArticleFromNet(): ApiResponse<HomeArtBean> {
         return executeHttp {
             mService.getWx()
         }

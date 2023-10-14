@@ -2,11 +2,8 @@ package com.example.myapplicationtest.vm
 
 import com.aisier.network.entity.ApiResponse
 import com.example.myapplicationtest.base.BaseViewModel
-import com.example.myapplicationtest.bean.WxArticleBean
+import com.example.myapplicationtest.bean.HomeArtBean
 import com.example.myapplicationtest.net.WxArticleRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * <pre>
@@ -16,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
  * version: 1.0
 </pre> *
  */
-class ApiViewModel : BaseViewModel() {
+class ArticleViewModel : BaseViewModel() {
 
     private val repository by lazy { WxArticleRepository() }
 
@@ -26,7 +23,7 @@ class ApiViewModel : BaseViewModel() {
 //    private val _uiState = MutableStateFlow<ApiResponse<List<WxArticleBean>>>(ApiResponse())
 //    val uiState: StateFlow<ApiResponse<List<WxArticleBean>>> = _uiState.asStateFlow()
 
-    suspend fun requestNet():ApiResponse<List<WxArticleBean>> {
+    suspend fun requestNet():ApiResponse<HomeArtBean> {
        return repository.fetchWxArticleFromNet()
     }
 

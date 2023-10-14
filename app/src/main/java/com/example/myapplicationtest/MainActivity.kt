@@ -17,7 +17,7 @@ import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
-import com.example.myapplicationtest.vm.ApiViewModel
+import com.example.myapplicationtest.vm.ArticleViewModel
 import com.permissionx.guolindev.PermissionX
 import toast
 
@@ -27,7 +27,6 @@ class MainActivity : BaseActivity() {
     private val binding by binding(ActivityMainBinding::inflate)
 
 
-    private val mViewModel by viewModels<ApiViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,24 +35,7 @@ class MainActivity : BaseActivity() {
             startActivityKt<VideoActivity>()
         }
         binding.btcNormal.click {
-
-            launchWithLoadingAndCollect(
-                {
-                    mViewModel.requestNet()
-                }
-            ) {
-                onSuccess = {
-                    toast("成功:${it?.first()?.name}")
-                }
-                onComplete = {
-//                    toast("完成")
-                }
-                onError = {
-                    toast("失败${it.message}")
-                }
-
-            }
-
+            startActivityKt<HomeArticleActivity>()
         }
 
 

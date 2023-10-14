@@ -1,5 +1,6 @@
 package com.aisier.network
 
+import android.util.Log
 import com.aisier.network.entity.*
 
 fun <T> ApiResponse<T>.parseData(listenerBuilder: ResultBuilder<T>.() -> Unit) {
@@ -17,10 +18,16 @@ class ResultBuilder<T> {
     var onSuccess: (data: T?) -> Unit = {}
     var onDataEmpty: () -> Unit = {}
     var onFailed: (errorCode: Int?, errorMsg: String?) -> Unit = { _, errorMsg ->
-        errorMsg?.let { toast(it) }
+        errorMsg?.let {
+//            toast(it)
+            Log.e("okhttp", "请求出错: $it")
+        }
     }
     var onError: (e: Throwable) -> Unit = { e ->
-        e.message?.let { toast(it) }
+        e.message?.let {
+//            toast(it)
+            Log.e("okhttp", "请求出错: $it")
+        }
     }
     var onComplete: () -> Unit = {}
 }
