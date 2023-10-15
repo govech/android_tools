@@ -10,9 +10,9 @@ class WxArticleRepository : BaseRepository() {
         RetrofitClient.service
     }
 
-    suspend fun fetchWxArticleFromNet(): ApiResponse<HomeArtBean> {
+    suspend fun fetchWxArticleFromNet(page: Int): ApiResponse<HomeArtBean> {
         return executeHttp {
-            mService.getWx()
+            mService.getWx(page)
         }
     }
 

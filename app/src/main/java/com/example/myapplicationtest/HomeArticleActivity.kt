@@ -8,18 +8,24 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplicationtest.base.BaseActivity
+import com.example.myapplicationtest.base.EndlessRecyclerViewScrollListener
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityHomeArticleBinding
 import com.example.myapplicationtest.ktx.binding
+import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.vm.ArticleViewModel
+import logd
 
 class HomeArticleActivity : BaseActivity() {
 
+    private var mPage: Int = 1
     private val mBinding by binding(ActivityHomeArticleBinding::inflate)
     private lateinit var mAdapter: QuickAdapter<ArticleBean>
     private val mViewModel by viewModels<ArticleViewModel>()
     private val dataList = mutableListOf<ArticleBean>()
+
+    private lateinit var endlessScrollListener: EndlessRecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initRv()
@@ -28,7 +34,9 @@ class HomeArticleActivity : BaseActivity() {
 
 
     private fun initRv() {
-        mBinding.articleRv.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        mBinding.articleRv.layoutManager = linearLayoutManager
+
 //        mBinding.articleRv.addItemDecoration(
 //            DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
 //        )
@@ -38,6 +46,11 @@ class HomeArticleActivity : BaseActivity() {
             titleTv.text = data.title
         }
         mBinding.articleRv.adapter = mAdapter
+        endlessScrollListener = EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            "正在加载".showToast(this)
+            loadMoreData()
+        }
+        mBinding.articleRv.addOnScrollListener(endlessScrollListener)
     }
 
 
@@ -49,19 +62,39 @@ class HomeArticleActivity : BaseActivity() {
         ) {
             onSuccess = {
                 it?.let {
+                    dataList.clear()
                     dataList.addAll(it.datas)
                     mAdapter.notifyDataSetChanged()
                 }
             }
-            onComplete = {
-//                    toast("完成")
-            }
             onError = {
                 Log.e("okhttp", "请求出错: $it")
-
 //                toast("失败${it.message}")
             }
 
         }
     }
+
+    private fun loadMoreData() {
+        launchAndCollect(
+            {
+                mViewModel.requestNet(mPage)
+            }
+        ) {
+            onSuccess = {
+                it?.let {
+                    dataList.addAll(it.datas)
+                    mAdapter.notifyDataSetChanged()
+                    mPage++
+                    endlessScrollListener.setLoaded()
+                }
+            }
+            onError = {
+                Log.e("okhttp", "请求出错: $it")
+//                toast("失败${it.message}")
+            }
+
+        }
+    }
+
 }

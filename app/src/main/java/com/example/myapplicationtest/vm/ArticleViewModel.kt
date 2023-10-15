@@ -23,8 +23,8 @@ class ArticleViewModel : BaseViewModel() {
 //    private val _uiState = MutableStateFlow<ApiResponse<List<WxArticleBean>>>(ApiResponse())
 //    val uiState: StateFlow<ApiResponse<List<WxArticleBean>>> = _uiState.asStateFlow()
 
-    suspend fun requestNet():ApiResponse<HomeArtBean> {
-       return repository.fetchWxArticleFromNet()
+    suspend fun requestNet(page: Int = 0): ApiResponse<HomeArtBean> {
+        return repository.fetchWxArticleFromNet(page)
     }
 
 }
