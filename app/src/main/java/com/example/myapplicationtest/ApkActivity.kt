@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
+import com.example.myapplicationtest.base.QuickBindingAdapter
 import com.example.myapplicationtest.databinding.ActivityApkBinding
+import com.example.myapplicationtest.databinding.ItemAppinfoBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
+import java.util.zip.Inflater
 
 class ApkActivity : BaseActivity() {
 
@@ -44,12 +47,28 @@ class ApkActivity : BaseActivity() {
 //        }
 
 
-        val myadapter = QuickAdapter(this, R.layout.item_appinfo, list) { view, item ->
-            val nameTv: TextView = view.findViewById(R.id.tv_name)
-            val iconImg: ImageView = view.findViewById(R.id.img_icon)
-            nameTv.text = item.appName
-            Glide.with(this).load(item.icon).into(iconImg)
-        }
+//        val myadapter = QuickAdapter(this, R.layout.item_appinfo, list) { view, item ->
+//            val nameTv: TextView = view.findViewById(R.id.tv_name)
+//            val iconImg: ImageView = view.findViewById(R.id.img_icon)
+//            nameTv.text = item.appName
+//            Glide.with(this).load(item.icon).into(iconImg)
+//        }
+
+        val myadapter = QuickBindingAdapter(
+            this,
+            inflateBinding = { inflater, parent ->
+                ItemAppinfoBinding.inflate(inflater, parent, false)
+            },
+            dataList = list,
+            bindView = { binding, item, holder ->
+                binding.tvName.text = item.appName
+                Glide.with(this).load(item.icon).into(binding.imgIcon)
+                holder.onClick<ImageView>(R.id.img_icon) {
+                    "局部点击".showToast(this)
+                }
+            }
+        )
+
         binding.recyclerView.adapter = myadapter
         myadapter.setOnItemClickListener { view, appInfoData ->
             val appInfo = appInfoData
