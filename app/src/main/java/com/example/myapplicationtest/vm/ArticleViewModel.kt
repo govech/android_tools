@@ -36,13 +36,8 @@ class ArticleViewModel : BaseViewModel() {
         return repository.fetchWxArticleFromNet(page)
     }
 
-    suspend fun requestNetFromPage3(page: Int = 0): ApiResponse<HomeArtBean> {
-        return repository.fetchWxArticleFromNet(page)
-    }
-
 
     fun getPagingData(): Flow<PagingData<ArticleBean>> {
-
         return getGithubPagingData().cachedIn(viewModelScope)
     }
 
