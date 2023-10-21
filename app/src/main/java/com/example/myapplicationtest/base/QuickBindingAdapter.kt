@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.example.myapplicationtest.databinding.ItemCusviewBinding
+
+
 
 class QuickBindingAdapter<T, VB : ViewBinding>(
     private val context: Context,
-    private val inflateBinding: (LayoutInflater, ViewGroup) -> VB,
+    private val inflateBinding: (LayoutInflater, ViewGroup) -> VB = { inflater, parent ->
+        ItemCusviewBinding.inflate(inflater, parent, false) as VB
+    },
     private val dataList: List<T>,
     private val bindView: (VB, T, QuickBindingAdapter<T, VB>.QuickViewHolder) -> Unit
 ) : RecyclerView.Adapter<QuickBindingAdapter<T, VB>.QuickViewHolder>() {

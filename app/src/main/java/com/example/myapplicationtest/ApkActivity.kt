@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
@@ -59,15 +57,14 @@ class ApkActivity : BaseActivity() {
             inflateBinding = { inflater, parent ->
                 ItemAppinfoBinding.inflate(inflater, parent, false)
             },
-            dataList = list,
-            bindView = { binding, item, holder ->
-                binding.tvName.text = item.appName
-                Glide.with(this).load(item.icon).into(binding.imgIcon)
-                holder.onClick<ImageView>(R.id.img_icon) {
-                    "局部点击".showToast(this)
-                }
+            dataList = list
+        ) { binding, item, holder ->
+            binding.tvName.text = item.appName
+            Glide.with(this).load(item.icon).into(binding.imgIcon)
+            holder.onClick<ImageView>(R.id.img_icon) {
+                "局部点击".showToast(this)
             }
-        )
+        }
 
         binding.recyclerView.adapter = myadapter
         myadapter.setOnItemClickListener { view, appInfoData ->

@@ -48,9 +48,9 @@ class TtsActivity : BaseActivity() {
         )
         myadapter = QuickBindingAdapter(
             this,
-            inflateBinding = { inflater, parent ->
-                ItemCusviewBinding.inflate(inflater, parent, false)
-            },
+//            inflateBinding = { inflater, parent ->
+//                ItemCusviewBinding.inflate(inflater, parent, false)
+//            },
             dataList = engineList,
             bindView = { binding, item, holder ->
                 binding.tvView.text = item.name
@@ -100,14 +100,26 @@ class TtsActivity : BaseActivity() {
 
     private fun initListener() {
         mBinding.btcPlay.click {
-            if (!textToSpeech.isSpeaking) {
+//            if (!textToSpeech.isSpeaking) {
+//                currentEngine?.let {
+//                    textToSpeech.setEngineByPackageName(it.name)
+//                }
+//                textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, null)
+//                mBinding.btcPlay.text = "暂停"
+//            } else {
+//                textToSpeech.stop()
+//                mBinding.btcPlay.text = "播放"
+//            }
+            if (!isPlaying) {
                 currentEngine?.let {
                     textToSpeech.setEngineByPackageName(it.name)
                 }
                 textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, null)
                 mBinding.btcPlay.text = "暂停"
+                isPlaying = true
             } else {
                 textToSpeech.stop()
+                isPlaying = false
                 mBinding.btcPlay.text = "播放"
             }
         }
