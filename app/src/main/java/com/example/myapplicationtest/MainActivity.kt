@@ -27,15 +27,13 @@ class MainActivity : BaseActivity() {
     private val binding by binding(ActivityMainBinding::inflate)
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.button.setOnClickListener {
             startActivityKt<VideoActivity>()
         }
         binding.btcNormal.click {
-            startActivityKt<HomeArticleActivity>()
+            startActivityKt<WanAndroidActivity>()
         }
 
 
