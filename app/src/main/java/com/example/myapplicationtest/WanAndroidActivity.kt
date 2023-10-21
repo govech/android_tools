@@ -16,7 +16,7 @@ class WanAndroidActivity : BaseActivity() {
         val recyclerView = createRecycleRView(titleList) { _, data ->
             when (data) {
                 "page3" -> {
-
+                    startActivityKt<Page3Activity>()
                 }
 
                 else -> {

@@ -3,6 +3,7 @@ package com.example.myapplicationtest.ktx
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,5 +40,22 @@ fun Context.createRecycleRView(
         tempAdapter.setOnItemClickListener { view, s ->
             listener?.invoke(view, s)
         }
+    }
+}
+
+
+fun Context.createRecycleRView(): RecyclerView {
+    return RecyclerView(this).apply {
+        layoutManager = LinearLayoutManager(this@createRecycleRView)
+        addItemDecoration(
+            DividerItemDecoration(
+                this@createRecycleRView,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
     }
 }
