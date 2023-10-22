@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.extensions.VibratorUtil
-import com.example.myapplicationtest.extensions.lockScreenOrientation
 import com.example.myapplicationtest.extensions.setBoldSpan
 import com.example.myapplicationtest.ktx.startActivityKt
 import currentTimeString
@@ -22,7 +21,7 @@ class ViewListActivity : BaseActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.rv_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        val list = mutableListOf("进度条", currentTimeString(), "tts")
+        val list = mutableListOf("进度条", currentTimeString(), "tts", "RV列表动画效果")
         val layoutResId = R.layout.item_cusview
 
         val myadapter = QuickAdapter(this, layoutResId, list, bindView = { view, itemData ->
@@ -47,6 +46,10 @@ class ViewListActivity : BaseActivity() {
             when (s) {
                 "tts" -> {
                     startActivityKt<TtsActivity>()
+                }
+
+                "RV列表动画效果" -> {
+                    startActivityKt<RvhorizontalActivity>()
                 }
 
                 else -> {

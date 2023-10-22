@@ -1,15 +1,13 @@
 package com.example.myapplicationtest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
-import com.example.myapplicationtest.base.QuickBindingAdapter
 import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityPage3Binding
-import com.example.myapplicationtest.databinding.ItemCusviewBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.createRecycleRView
 import com.example.myapplicationtest.page3.QuickPageAdapter
@@ -19,7 +17,6 @@ import kotlinx.coroutines.launch
 class Page3Activity : AppCompatActivity() {
     private val mBinding by binding(ActivityPage3Binding::inflate)
     private val mViewModel by viewModels<ArticleViewModel>()
-    private val list = mutableListOf<ArticleBean>()
     private lateinit var tempAdapter: QuickPageAdapter<ArticleBean>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +26,6 @@ class Page3Activity : AppCompatActivity() {
 
     private fun initData() {
         lifecycleScope.launch {
-
             mViewModel.getPagingData().collect { pagingData ->
                 tempAdapter.submitData(pagingData)
             }
@@ -37,7 +33,6 @@ class Page3Activity : AppCompatActivity() {
     }
 
     private fun initRv() {
-
         val recyclerView = createRecycleRView()
         tempAdapter = QuickPageAdapter(
             R.layout.item_cusview,
@@ -48,10 +43,6 @@ class Page3Activity : AppCompatActivity() {
         )
         recyclerView.adapter = tempAdapter
         mBinding.root.addView(recyclerView)
-//        tempAdapter.setOnItemClickListener { view, s ->
-//            listener?.invoke(view, s)
-//        }
-
     }
 
     companion object {
