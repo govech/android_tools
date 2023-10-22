@@ -5,9 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.ktx.dp2px
+import logd
 
 class SimpleItemDecoration(
     val context: Context,
@@ -32,9 +34,7 @@ class SimpleItemDecoration(
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.apply {
-            right = dividerWidth
-        }
+        outRect.right = dividerWidth
     }
 
     override fun onDrawOver(c: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {
@@ -45,8 +45,8 @@ class SimpleItemDecoration(
             val child = recyclerView.getChildAt(i)
             val dividerTop = child.top + child.height / 2 - dividerHeight / 2
             val dividerBottom = dividerTop + dividerHeight
-            val dividerLeft = child.left - dividerWidth
-            val dividerRight = child.left
+            val dividerLeft = child.right
+            val dividerRight = dividerLeft + dividerWidth
             c.drawRect(
                 dividerLeft.toFloat(),
                 dividerTop.toFloat(), dividerRight.toFloat(), dividerBottom.toFloat(), dividerPaint
@@ -54,4 +54,5 @@ class SimpleItemDecoration(
 
         }
     }
+
 }
