@@ -1,10 +1,13 @@
 package com.example.myapplicationtest.activitys
 
 import android.os.Bundle
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.webkit.WebView
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityWebBinding
 import com.example.myapplicationtest.ktx.binding
+import hide
 
 class WebActivity : BaseActivity() {
     private val mBinding by binding(ActivityWebBinding::inflate)
@@ -23,8 +26,9 @@ class WebActivity : BaseActivity() {
 
             domStorageEnabled = true//处理无法完整加载公众号文章问题
 
-            javaScriptEnabled = true //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript，若加载的 html 里有JS 在执行动画等操作，
-                                     // 会造成资源浪费（CPU、电量），在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
+            javaScriptEnabled =
+                true //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript，若加载的 html 里有JS 在执行动画等操作，
+            // 会造成资源浪费（CPU、电量），在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
             //设置自适应屏幕，两者合用
             useWideViewPort = true; //将图片调整到适合webview的大小
             loadWithOverviewMode = true; // 缩放至屏幕的大小
@@ -49,6 +53,25 @@ class WebActivity : BaseActivity() {
             //LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
 
         }
+
+
+        mBinding.webArticle.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                if (newProgress < 100) {
+                    mBinding.progressWeb.progress = newProgress
+                } else {
+                    mBinding.progressWeb.hide()
+                }
+
+            }
+
+            override fun onReceivedTitle(view: WebView?, title: String?) {
+                super.onReceivedTitle(view, title)
+            }
+
+        }
+
     }
 
     companion object {

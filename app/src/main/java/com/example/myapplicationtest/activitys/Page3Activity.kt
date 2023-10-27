@@ -11,6 +11,7 @@ import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityPage3Binding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.createRecycleRView
+import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.page3.QuickPageAdapter
 import com.example.myapplicationtest.vm.ArticleViewModel
 import kotlinx.coroutines.launch
@@ -44,6 +45,11 @@ class Page3Activity : AppCompatActivity() {
         )
         recyclerView.adapter = tempAdapter
         mBinding.root.addView(recyclerView)
+        tempAdapter.onItemClickListener = {_,bean->
+            startActivityKt<WebActivity>{
+                putExtra(WebActivity.Url_KEY,bean.link)
+            }
+        }
     }
 
     companion object {

@@ -14,7 +14,7 @@ class QuickPageAdapter<T : Any>(
     private val itemCallback: DiffUtil.ItemCallback<T>
 ) : PagingDataAdapter<T, QuickPageAdapter<T>.PageViewHolder>(itemCallback) {
 
-    private var onItemClickListener: ((View, T) -> Unit)? = null
+    var onItemClickListener: ((View, T) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder {
