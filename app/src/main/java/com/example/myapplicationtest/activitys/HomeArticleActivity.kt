@@ -13,6 +13,7 @@ import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityHomeArticleBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
+import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.vm.ArticleViewModel
 
 class HomeArticleActivity : BaseActivity() {
@@ -49,6 +50,11 @@ class HomeArticleActivity : BaseActivity() {
             loadMoreData()
         }
         mBinding.articleRv.addOnScrollListener(endlessScrollListener)
+        mAdapter.setOnItemClickListener { view, articleBean ->
+            startActivityKt<WebActivity> {
+                putExtra(WebActivity.Url_KEY, articleBean.link)
+            }
+        }
     }
 
 
