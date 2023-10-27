@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.os.Build
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.extensions.VibratorUtil

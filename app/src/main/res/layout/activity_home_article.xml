@@ -7,7 +7,7 @@
     android:paddingStart="8dp"
     android:background="#DFE5E8"
     android:paddingEnd="8dp"
-    tools:context=".HomeArticleActivity">
+    tools:context=".activitys.HomeArticleActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/article_rv"

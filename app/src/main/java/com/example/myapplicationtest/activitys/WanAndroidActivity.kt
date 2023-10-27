@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.os.Bundle
 import com.example.myapplicationtest.base.BaseActivity

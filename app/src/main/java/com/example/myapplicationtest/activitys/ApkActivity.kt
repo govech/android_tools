@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.app.Activity
 import android.content.Intent
@@ -7,14 +7,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.myapplicationtest.ApkTool
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
-import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.base.QuickBindingAdapter
 import com.example.myapplicationtest.databinding.ActivityApkBinding
 import com.example.myapplicationtest.databinding.ItemAppinfoBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
-import java.util.zip.Inflater
 
 class ApkActivity : BaseActivity() {
 

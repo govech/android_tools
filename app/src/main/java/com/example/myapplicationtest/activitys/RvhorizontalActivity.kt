@@ -1,10 +1,11 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.os.Bundle
 import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.databinding.ActivityRvhorizontalBinding

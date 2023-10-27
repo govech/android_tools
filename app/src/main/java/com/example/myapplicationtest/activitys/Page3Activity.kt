@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.os.Bundle
 import android.widget.TextView
@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityPage3Binding
 import com.example.myapplicationtest.ktx.binding

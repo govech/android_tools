@@ -1,15 +1,13 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.viewbinding.ViewBinding
 import click
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.extensions.countDownCoroutines
 import com.example.myapplicationtest.view.ProgressCusBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import logd
 
 class ProgressBarActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

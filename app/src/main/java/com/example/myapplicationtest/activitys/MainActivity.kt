@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.Manifest
 import android.content.Intent
@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.widget.Toast
-import androidx.activity.viewModels
 import click
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityMainBinding
@@ -17,7 +16,6 @@ import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
-import com.example.myapplicationtest.vm.ArticleViewModel
 import com.permissionx.guolindev.PermissionX
 import toast
 

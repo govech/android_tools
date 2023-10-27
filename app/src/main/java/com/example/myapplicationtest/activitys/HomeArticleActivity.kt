@@ -1,12 +1,11 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.EndlessRecyclerViewScrollListener
 import com.example.myapplicationtest.base.QuickAdapter
@@ -15,7 +14,6 @@ import com.example.myapplicationtest.databinding.ActivityHomeArticleBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.vm.ArticleViewModel
-import logd
 
 class HomeArticleActivity : BaseActivity() {
 

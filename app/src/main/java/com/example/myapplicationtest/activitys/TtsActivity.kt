@@ -1,9 +1,8 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.activitys
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import click

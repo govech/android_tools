@@ -23,34 +23,34 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".RvhorizontalActivity"
+            android:name=".activitys.RvhorizontalActivity"
             android:exported="false" />
         <activity
-            android:name=".Page3Activity"
+            android:name=".activitys.Page3Activity"
             android:exported="false" />
         <activity
-            android:name=".WanAndroidActivity"
+            android:name=".activitys.WanAndroidActivity"
             android:exported="false" />
         <activity
-            android:name=".TtsActivity"
+            android:name=".activitys.TtsActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeArticleActivity"
+            android:name=".activitys.HomeArticleActivity"
             android:exported="false" />
         <activity
-            android:name=".ProgressBarActivity"
+            android:name=".activitys.ProgressBarActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewListActivity"
+            android:name=".activitys.ViewListActivity"
             android:exported="false" />
         <activity
-            android:name=".ApkActivity"
+            android:name=".activitys.ApkActivity"
             android:exported="false" />
         <activity
-            android:name=".VideoActivity"
+            android:name=".activitys.VideoActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activitys.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

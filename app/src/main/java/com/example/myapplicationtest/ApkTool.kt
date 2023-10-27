@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.util.Log
+import com.example.myapplicationtest.bean.AppInfoData
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

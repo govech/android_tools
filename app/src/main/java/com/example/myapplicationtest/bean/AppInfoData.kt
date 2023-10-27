@@ -1,4 +1,4 @@
-package com.example.myapplicationtest
+package com.example.myapplicationtest.bean
 
 import android.graphics.drawable.Drawable
 
