@@ -22,10 +22,9 @@ class ViewListActivity : BaseActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.rv_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        val list = mutableListOf("进度条", currentTimeString(), "tts", "RV列表动画效果")
         val layoutResId = R.layout.item_cusview
 
-        val myadapter = QuickAdapter(this, layoutResId, list, bindView = { view, itemData ->
+        val myadapter = QuickAdapter(this, layoutResId, TITLE_NAME, bindView = { view, itemData ->
             val textView = view.findViewById<TextView>(R.id.tv_view)
 //            textView.text = itemData
             textView.setBoldSpan(itemData, 0, itemData.length)
@@ -45,12 +44,16 @@ class ViewListActivity : BaseActivity() {
             }
 
             when (s) {
-                "tts" -> {
+                TITLE_NAME[2] -> {
                     startActivityKt<TtsActivity>()
                 }
 
-                "RV列表动画效果" -> {
+                TITLE_NAME[3] -> {
                     startActivityKt<RvhorizontalActivity>()
+                }
+
+                TITLE_NAME[4] -> {
+
                 }
 
                 else -> {
@@ -59,5 +62,9 @@ class ViewListActivity : BaseActivity() {
             }
 
         }
+    }
+
+    companion object {
+        val TITLE_NAME = listOf("进度条", currentTimeString(), "tts", "RV列表动画效果", "CameraX")
     }
 }
