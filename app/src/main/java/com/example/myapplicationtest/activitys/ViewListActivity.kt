@@ -1,5 +1,6 @@
 package com.example.myapplicationtest.activitys
 
+import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -13,6 +14,7 @@ import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.extensions.VibratorUtil
 import com.example.myapplicationtest.extensions.setBoldSpan
 import com.example.myapplicationtest.ktx.startActivityKt
+import com.permissionx.guolindev.PermissionX
 import currentTimeString
 
 class ViewListActivity : BaseActivity() {
@@ -53,7 +55,7 @@ class ViewListActivity : BaseActivity() {
                 }
 
                 TITLE_NAME[4] -> {
-
+                    requestCameraPers()
                 }
 
                 else -> {
@@ -64,7 +66,28 @@ class ViewListActivity : BaseActivity() {
         }
     }
 
+
+    private fun requestCameraPers() {
+        PermissionX.init(this)
+            .permissions(*REQUIRED_PERMISSIONS)
+            .request { allGranted, grantedList, deniedList ->
+                if (allGranted) {
+                    startActivityKt<CameraActivity>()
+                }
+
+            }
+    }
+
     companion object {
         val TITLE_NAME = listOf("进度条", currentTimeString(), "tts", "RV列表动画效果", "CameraX")
+        private val REQUIRED_PERMISSIONS =
+            mutableListOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+            ).apply {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                    add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+            }.toTypedArray()
     }
 }
