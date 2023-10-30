@@ -7,6 +7,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import click
 import com.example.myapplicationtest.base.BaseActivity
@@ -16,6 +18,7 @@ import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
+import com.example.myapplicationtest.view.GuideView
 import com.permissionx.guolindev.PermissionX
 import toast
 
@@ -27,6 +30,27 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding.btcApk.post {
+            // 获取view位置
+            val location = IntArray(2)
+            binding.btcApk.getLocationInWindow(location)
+            val x = location[0]
+            val y = location[1]
+
+            // 创建引导view
+            val guideView = GuideView(this)
+            guideView.layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            guideView.setContentLocation(x, y, binding.btcApk.width, binding.btcApk.height)
+            binding.rootView.addView(guideView)
+        }
+
+
+
+
         binding.button.setOnClickListener {
             startActivityKt<VideoActivity>()
         }
