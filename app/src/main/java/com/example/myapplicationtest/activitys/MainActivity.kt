@@ -40,6 +40,7 @@ class MainActivity : BaseActivity() {
 
             // 创建引导view
             val guideView = GuideView(this)
+            guideView.isClickable = true
             guideView.layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
