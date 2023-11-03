@@ -58,6 +58,11 @@ class ViewListActivity : BaseActivity() {
                     requestCameraPers()
                 }
 
+                TITLE_NAME[5] -> {
+                    startActivityKt<BackGroundColorActivity>()
+                }
+
+
                 else -> {
                     startActivityKt<ProgressBarActivity>()
                 }
@@ -79,7 +84,14 @@ class ViewListActivity : BaseActivity() {
     }
 
     companion object {
-        val TITLE_NAME = listOf("进度条", currentTimeString(), "tts", "RV列表动画效果", "CameraX")
+        val TITLE_NAME = listOf(
+            "进度条",
+            currentTimeString(),
+            "tts",
+            "RV列表动画效果",
+            "CameraX",
+            "根据图片改变背景颜色"
+        )
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
                 Manifest.permission.CAMERA,
