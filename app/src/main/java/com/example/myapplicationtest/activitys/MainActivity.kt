@@ -1,6 +1,7 @@
 package com.example.myapplicationtest.activitys
 
 import android.Manifest
+import android.app.ProgressDialog.show
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -8,18 +9,23 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import click
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityMainBinding
 import com.example.myapplicationtest.dialog.SimpleDialog
+import com.example.myapplicationtest.dialog.mydialog.BaseDialogFragment
+import com.example.myapplicationtest.dialog.mydialog.CustomDialogBuilder
 import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.view.GuideView
 import com.permissionx.guolindev.PermissionX
+import hide
 import toast
 
 
@@ -39,7 +45,11 @@ class MainActivity : BaseActivity() {
             val y = location[1]
 
             // 创建引导view
-            val guideView = GuideView(this)
+            val guideView = GuideView(this).apply {
+                click {
+                    hide()
+                }
+            }
             guideView.isClickable = true
             guideView.layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -47,11 +57,30 @@ class MainActivity : BaseActivity() {
             )
             guideView.setContentLocation(x, y, binding.btcApk.width, binding.btcApk.height)
             binding.rootView.addView(guideView)
+
         }
 
 
 
+        binding.headbackView.click {
+            val myDialogFragment =
+                CustomDialogBuilder()
+                    .setTitle("我是标题")
+                    .setMessage("我是内容哦oo哦哦哦")
+                    .setNegativeButtonText("取消呀")
+                    .setPositiveButtonText("确定呀")
+                    .setListener(object : BaseDialogFragment.DialogListener {
+                        override fun onPositiveButtonClick() {
+                            "确定".showToast(this@MainActivity)
 
+                        }
+
+                        override fun onNegativeButtonClick() {
+                            "取消".showToast(this@MainActivity)
+                        }
+                    })
+                    .show(supportFragmentManager, "myDialog")
+        }
         binding.button.setOnClickListener {
             startActivityKt<VideoActivity>()
         }
@@ -104,7 +133,10 @@ class MainActivity : BaseActivity() {
                     ApkActivity.toActivity(this)
                     "All permissions are granted".showToast(this, Toast.LENGTH_LONG)
                 } else {
-                    "These permissions are denied: $deniedList".showToast(this, Toast.LENGTH_LONG)
+                    "These permissions are denied: $deniedList".showToast(
+                        this,
+                        Toast.LENGTH_LONG
+                    )
                 }
             }
     }
