@@ -5,10 +5,11 @@ import android.content.Context
 import com.danikula.videocache.Logger
 import com.dylanc.loadingstateview.LoadingStateView
 import com.example.myapplicationtest.loading.LoadingViewDelegate
+import dagger.hilt.android.HiltAndroidApp
 import xyz.doikki.videoplayer.BuildConfig
 import xyz.doikki.videoplayer.player.VideoViewConfig
 import xyz.doikki.videoplayer.player.VideoViewManager
-
+@HiltAndroidApp
 class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
