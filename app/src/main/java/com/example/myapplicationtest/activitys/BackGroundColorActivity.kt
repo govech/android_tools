@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.View
 import androidx.palette.graphics.Palette
 import click
 import com.bumptech.glide.Glide
@@ -15,7 +16,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityBackGroundColorBinding
 import com.example.myapplicationtest.ktx.binding
-import com.example.myapplicationtest.ktx.showToast
 import kotlin.math.roundToInt
 
 
@@ -31,14 +31,31 @@ class BackGroundColorActivity : BaseActivity() {
     private var builder: Palette.Builder? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        hideSystemUI()
         initView()
         getBitmap()
     }
 
     private fun initView() {
         mBinding.btcChange.click {
-            finish()
+//            flag = !flag
+            getBitmap()
         }
+    }
+
+    private fun hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
     private fun changeBackgroundColor() {
@@ -70,33 +87,9 @@ class BackGroundColorActivity : BaseActivity() {
             }
 
 
-//            //获取某种特性颜色的样品
-//            var lightVibrantSwatch: Palette.Swatch? = palette.darkVibrantSwatch
-//
-//            if (lightVibrantSwatch == null) {
-//                for (swatch in palette.swatches) {
-//                    lightVibrantSwatch = swatch
-//                    break
-//                }
-//            }
-//
-//            //谷歌推荐的：图片的整体的颜色rgb的混合值---主色调
-//            val rgb: Int = lightVibrantSwatch?.rgb ?: vibrantColor
-////            val finallyColor = getTranslucentColor(0.8f, rgb)
-//            val finallyColor = blurColor(rgb)
-////            mBinding.clRoot.setBackgroundColor(finallyColor)
-//
-//            val gradientDrawable = GradientDrawable(
-//                GradientDrawable.Orientation.TL_BR, intArrayOf(
-//                    rgb, finallyColor
-//                )
-//            )
-
-
             val gradientDrawable = GradientDrawable(
-                GradientDrawable.Orientation.TL_BR, intArrayOf(
-                   getTranslucentColor(0.4f, blurColor(startColor)),getTranslucentColor(0.8f, blurColor(endColor))
-                )
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(startColor, endColor)
             )
 
             mBinding.clRoot.background = gradientDrawable
@@ -104,10 +97,12 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
 
+
     private fun getBitmap() {
         val requestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE) // 禁用磁盘缓存
-//            .skipMemoryCache(true)                // 禁用内存缓存
+            .skipMemoryCache(true)                // 禁用内存缓存
+
         Glide.with(this)
             .asBitmap()
             .load(imgList.random())
@@ -118,13 +113,16 @@ class BackGroundColorActivity : BaseActivity() {
                     transition: Transition<in Bitmap?>?
                 ) {
                     mBinding.imgColorSample.setImageBitmap(resource)
+//                    Glide.with(this@BackGroundColorActivity)
+//                        .load(resource)
+//                        .into(mBinding.imgColorSample)
                     builder = Palette.from(resource)
                     changeBackgroundColor()
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    "加载失败".showToast(this@BackGroundColorActivity)
+//                    "加载失败".showToast(this@BackGroundColorActivity)
                     getBitmap()
                 }
 
@@ -132,6 +130,7 @@ class BackGroundColorActivity : BaseActivity() {
 
                 }
             })
+
     }
 
 
@@ -168,6 +167,7 @@ class BackGroundColorActivity : BaseActivity() {
         bule = Math.min(255f, bule * ratdio).toInt()
         return Color.argb(255, red, green, bule)
     }
+
 
 
     companion object {
