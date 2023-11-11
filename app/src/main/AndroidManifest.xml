@@ -28,6 +28,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.MusicActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.BackGroundColorActivity"
             android:exported="false" />
         <activity
@@ -72,6 +75,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.MusicService"/>
     </application>
 
 </manifest>

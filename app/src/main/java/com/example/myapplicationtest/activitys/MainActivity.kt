@@ -80,7 +80,12 @@ class MainActivity : BaseActivity() {
             })
         binding.rvFeatue.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            addItemDecoration(DividerItemDecoration(this@MainActivity,LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@MainActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
             adapter = myAapter
         }
         myAapter.setOnItemClickListener { view, s ->
@@ -128,7 +133,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 list[4] -> {
-
+                    startActivityKt<MusicActivity>()
                 }
 
                 else -> {
