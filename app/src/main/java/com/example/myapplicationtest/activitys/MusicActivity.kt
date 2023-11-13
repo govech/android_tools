@@ -78,6 +78,8 @@ class MusicActivity : BaseActivity() {
          */
         if (mServiceIntent == null) {
             mServiceIntent = Intent(this, MusicService::class.java)
+        }else{
+            musicBind?.playMusic()
         }
         startService(mServiceIntent)
 

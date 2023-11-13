@@ -1,11 +1,20 @@
 package com.example.myapplicationtest.service
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
+import com.example.myapplicationtest.R
+import com.example.myapplicationtest.activitys.MusicActivity
 import com.example.myapplicationtest.bean.MusicModel
 import com.example.myapplicationtest.music.MediaPlayerHelp
 
@@ -13,10 +22,14 @@ const val url =
     "http://music.163.com/song/media/outer/url?id=29723028.mp3"
 
 class MusicService : Service() {
+    private val NOTIFICATION_ID = 1
+    private val CHANNEL_ID = "my_channel"
 
     private lateinit var mediaPlayerHelp: MediaPlayerHelp
 
     private var musicModel: MusicModel? = null
+
+
     override fun onBind(intent: Intent?): IBinder {
         Log.d("TAG-MusicService", "onBind: ")
         return MusicBinder()
@@ -63,6 +76,7 @@ class MusicService : Service() {
 
         fun setMusic(model: MusicModel) {
             musicModel = model
+            startForeground()
         }
 
         fun playMusic() {
@@ -81,6 +95,10 @@ class MusicService : Service() {
                         mediaPlayerHelp.start()
                     }
 
+                    override fun onCompletion(mp: MediaPlayer) {
+                        stopSelf()
+                    }
+
                 })
             }
         }
@@ -97,5 +115,57 @@ class MusicService : Service() {
         }
     }
 
+
+
+    private fun startForeground(){
+        // 在Android 8.0及以上版本需要创建通知渠道
+        createNotificationChannel()
+        // 创建通知
+        val notification = buildNotification()
+
+        // 将服务提升为前台服务
+        startForeground(NOTIFICATION_ID, notification)
+
+//         返回START_STICKY以在服务被杀死后自动重新启动
+//        return START_STICKY
+    }
+
+    private fun buildNotification(): Notification {
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, MusicActivity::class.java),
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        // 创建通知
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(this, CHANNEL_ID)
+        } else {
+            Notification.Builder(this)
+        }
+
+        builder.setContentTitle("Foreground Service")
+            .setContentText("Service is running in the foreground")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentIntent(pendingIntent)
+
+        return builder.build()
+    }
+
+    private fun createNotificationChannel() {
+        // 在Android 8.0及以上版本需要创建通知渠道
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "My Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
 }

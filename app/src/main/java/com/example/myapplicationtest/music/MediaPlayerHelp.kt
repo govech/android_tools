@@ -32,6 +32,9 @@ class MediaPlayerHelp private constructor(context: Context) {
         mediaPlayer.setOnPreparedListener { mp ->
             onMediaPlayerHelpListener?.onPrepared(mp)
         }
+        mediaPlayer.setOnCompletionListener {
+            onMediaPlayerHelpListener?.onCompletion(it)
+        }
     }
 
     /**
@@ -63,6 +66,7 @@ class MediaPlayerHelp private constructor(context: Context) {
 
     interface OnMediaPlayerHelpListener {
         fun onPrepared(mp: MediaPlayer)
+        fun onCompletion(mp: MediaPlayer)
     }
 
     companion object {
