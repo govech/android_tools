@@ -1,8 +1,10 @@
 import android.graphics.Rect
 import android.os.Build
+import android.util.Log
 import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplicationtest.base.IUiView
@@ -79,31 +81,42 @@ fun View.setCustomTouchDelegate(
     bottom: Int = 0,
     clickAction: () -> Unit
 ) {
-    // 获取视图的矩形范围
-    val viewRect = Rect()
-    getHitRect(viewRect)
 
-    // 调整矩形参数
-    val expandedRect =
-        Rect(
-            viewRect.left - left,
-            viewRect.top - top,
-            viewRect.right + right,
-            viewRect.bottom + bottom
-        )
+    (parent as? ViewGroup)?.post {
 
-    // 创建一个 TouchDelegate 实例
-    val touchDelegate = object : TouchDelegate(expandedRect, this) {
-        override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        click {
             // 处理点击事件的逻辑
             clickAction.invoke()
-            return super.onTouchEvent(event)
         }
-    }
+        // 获取视图的矩形范围
+        val viewRect = Rect()
+        getHitRect(viewRect)
 
-    // 将 TouchDelegate 设置给 View 的父级
-    (parent as? View)?.let {
-        it.touchDelegate = touchDelegate
+        // 调整矩形参数
+        viewRect.apply {
+            this.left = this.left - left
+            this.top = this.top - top
+            this.right = this.right + right
+            this.bottom = this.bottom + bottom
+        }
+        Log.d(
+            "TAGviewRect",
+            "setCustomTouchDelegate: ${viewRect.top}  ${viewRect.bottom}  ${viewRect.left}  ${viewRect.right}"
+        )
+        // 创建一个 TouchDelegate 实例
+        val touchDelegate = object : TouchDelegate(viewRect, this) {
+            override fun onTouchEvent(event: MotionEvent): Boolean {
+                // 处理点击事件的逻辑
+//            clickAction.invoke()
+                return super.onTouchEvent(event)
+            }
+        }
+
+        // 将 TouchDelegate 设置给 View 的父级
+        (parent as? ViewGroup)?.let {
+            it.touchDelegate = touchDelegate
+        }
     }
 }
 
