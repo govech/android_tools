@@ -3,9 +3,14 @@ package com.example.myapplicationtest.activitys
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.MotionEvent
+import android.view.TouchDelegate
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.lifecycle.lifecycleScope
 import click
@@ -14,12 +19,14 @@ import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.bean.MusicModel
 import com.example.myapplicationtest.databinding.ActivityMusicBinding
 import com.example.myapplicationtest.ktx.binding
+import com.example.myapplicationtest.ktx.px
 import com.example.myapplicationtest.service.MusicService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import setCustomTouchDelegate
 
 const val url =
     "http://music.163.com/song/media/outer/url?id=29723028.mp3"
@@ -78,7 +85,7 @@ class MusicActivity : BaseActivity() {
          */
         if (mServiceIntent == null) {
             mServiceIntent = Intent(this, MusicService::class.java)
-        }else{
+        } else {
             musicBind?.playMusic()
         }
         startService(mServiceIntent)
@@ -115,6 +122,10 @@ class MusicActivity : BaseActivity() {
     }
 
     private fun initView() {
+
+        mBinding.progressMusicBar.setCustomTouchDelegate(0, 100.px, 0, 100.px) {
+            mBinding.progressMusicBar.setProgress((0..99).random())
+        }
 
         lifecycleScope.launch(Dispatchers.IO) {
             while (true) {

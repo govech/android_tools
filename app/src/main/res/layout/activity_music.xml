@@ -3,8 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#4C4949"
     android:layout_height="match_parent"
     tools:context=".activitys.MusicActivity">
+
+
+    <com.example.myapplicationtest.view.ProgressMusicBar
+        android:id="@+id/progressMusicBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btc_play"
@@ -35,18 +48,20 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             android:textSize="10sp"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="544dp" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/progressBar_music"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:progressDrawable="@drawable/seekbar_progress_drawable"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
+            android:thumb="@drawable/music_touch"
             android:layout_weight="1"
-            android:outlineSpotShadowColor="#142FA6"
             android:max="100" />
 
         <TextView
@@ -54,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
+            android:textColor="@color/white"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:layout_editor_absoluteY="547dp" />

@@ -3,7 +3,11 @@ package com.example.myapplicationtest.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
+import android.content.res.Resources.getSystem
 import android.widget.Toast
+import java.lang.Math.round
+import kotlin.math.roundToInt
 
 //启动Activity
 inline fun <reified T : Activity> Context.startActivityKt(block: Intent.() -> Unit = {}) {
@@ -66,3 +70,9 @@ fun Context.px2dp(value: Int): Float = value.toFloat() / density
 
 
 
+
+
+//val Number.dp get() = (toFloat() * getSystem().displayMetrics.density).roundToInt()
+
+val Int.dp: Int get() = (this / getSystem().displayMetrics.density).roundToInt()
+val Int.px: Int get() = (this * getSystem().displayMetrics.density).roundToInt()
