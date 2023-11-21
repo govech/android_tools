@@ -1,9 +1,11 @@
 package com.example.myapplicationtest.activitys
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
@@ -11,10 +13,15 @@ import com.example.myapplicationtest.base.EndlessRecyclerViewScrollListener
 import com.example.myapplicationtest.base.QuickAdapter
 import com.example.myapplicationtest.bean.ArticleBean
 import com.example.myapplicationtest.databinding.ActivityHomeArticleBinding
+import com.example.myapplicationtest.db.AppDatabase
+import com.example.myapplicationtest.db.ReadedArticle
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.vm.ArticleViewModel
+import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeArticleActivity : BaseActivity() {
 
@@ -42,7 +49,13 @@ class HomeArticleActivity : BaseActivity() {
 
         mAdapter = QuickAdapter(this, R.layout.item_article, dataList) { view, data ->
             val titleTv: TextView = view.findViewById(R.id.tv_title)
+            val root = view.findViewById<MaterialCardView>(R.id.card)
             titleTv.text = data.title
+            if (data.isReaded) {
+                root.setBackgroundColor(Color.parseColor("#CDDAC9C9"))
+            } else {
+                root.setBackgroundColor(Color.WHITE)
+            }
         }
         mBinding.articleRv.adapter = mAdapter
         endlessScrollListener = EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -53,10 +66,26 @@ class HomeArticleActivity : BaseActivity() {
         mAdapter.setOnItemClickListener { view, articleBean ->
             startActivityKt<WebActivity> {
                 putExtra(WebActivity.Url_KEY, articleBean.link)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    updateArticleStatus(articleBean)
+                }
             }
         }
+
     }
 
+    private fun updateArticleStatus(bean: ArticleBean) {
+        val dao = AppDatabase.getDatabase(this).articleDao()
+        val articleList = dao.findReadedArticle(bean.id)
+        val article = ReadedArticle(bean.link, bean.id, true)
+
+        if (articleList.isNullOrEmpty()) {
+            dao.insertArticle(article)
+        } else {
+            dao.updateArticle(article)
+        }
+        Log.d("TAG12345", "updateArticleStatus: $article")
+    }
 
     private fun initData() {
         launchWithLoadingAndCollect(

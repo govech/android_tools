@@ -11,6 +11,7 @@ class WxArticleRepository : BaseRepository() {
     }
 
     suspend fun fetchWxArticleFromNet(page: Int): ApiResponse<HomeArtBean> {
+
         return executeHttp {
             mService.getWx(page)
         }

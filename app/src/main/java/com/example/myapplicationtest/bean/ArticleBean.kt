@@ -35,5 +35,6 @@ data class ArticleBean(
     val type: Int,
     val userId: Int,
     val visible: Int,
-    val zan: Int
+    val zan: Int,
+    var isReaded: Boolean//是否看过
 )
