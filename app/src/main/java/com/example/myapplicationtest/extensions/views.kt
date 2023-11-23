@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Build
 import android.util.Log
@@ -73,50 +74,40 @@ fun View.click(a: () -> Unit) {
 }
 
 
-// 增大view点击面积
-fun View.setCustomTouchDelegate(
+// 增大view滑动面积
+@SuppressLint("ClickableViewAccessibility")
+fun View.addTouchSizeDelegate(
     left: Int = 0,
     top: Int = 0,
     right: Int = 0,
-    bottom: Int = 0,
-    clickAction: () -> Unit
+    bottom: Int = 0
 ) {
-
-    (parent as? ViewGroup)?.post {
-
-
-        click {
-            // 处理点击事件的逻辑
-            clickAction.invoke()
-        }
+    (parent as? View)?.setOnTouchListener { v, event ->
         // 获取视图的矩形范围
         val viewRect = Rect()
         getHitRect(viewRect)
-
-        // 调整矩形参数
-        viewRect.apply {
-            this.left = this.left - left
-            this.top = this.top - top
-            this.right = this.right + right
-            this.bottom = this.bottom + bottom
+        Log.d("TAGgetHitRect", "event.y= ${event.y} viewRect.top= ${viewRect.top} top = ${top} ")
+        // 扩大了指定的接收范围
+        if (event.y >= viewRect.top - top &&
+            event.y <= viewRect.bottom + bottom &&
+            event.x >= viewRect.left - left &&
+            event.x <= viewRect.right + right
+        ) {
+            val obtain = MotionEvent.obtain(
+                event.downTime,
+                event.eventTime,
+                event.action,
+                event.x - viewRect.left,
+                viewRect.top + viewRect.height() / 2.0F,
+                event.metaState
+            )
+            onTouchEvent(obtain)
+        } else {
+            false
         }
-        Log.d(
-            "TAGviewRect",
-            "setCustomTouchDelegate: ${viewRect.top}  ${viewRect.bottom}  ${viewRect.left}  ${viewRect.right}"
-        )
-        // 创建一个 TouchDelegate 实例
-        val touchDelegate = object : TouchDelegate(viewRect, this) {
-            override fun onTouchEvent(event: MotionEvent): Boolean {
-                // 处理点击事件的逻辑
-//            clickAction.invoke()
-                return super.onTouchEvent(event)
-            }
-        }
-
-        // 将 TouchDelegate 设置给 View 的父级
-        (parent as? ViewGroup)?.let {
-            it.touchDelegate = touchDelegate
-        }
+        return@setOnTouchListener true
     }
+
+
 }
 

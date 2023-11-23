@@ -1,16 +1,12 @@
 package com.example.myapplicationtest.activitys
 
+import addTouchSizeDelegate
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.view.MotionEvent
-import android.view.TouchDelegate
-import android.view.View
-import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.lifecycle.lifecycleScope
 import click
@@ -26,7 +22,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import setCustomTouchDelegate
 
 const val url =
     "http://music.163.com/song/media/outer/url?id=29723028.mp3"
@@ -123,9 +118,14 @@ class MusicActivity : BaseActivity() {
 
     private fun initView() {
 
-        mBinding.progressMusicBar.setCustomTouchDelegate(0, 100.px, 0, 100.px) {
-            mBinding.progressMusicBar.setProgress((0..99).random())
-        }
+//        mBinding.progressMusicBar.setCustomTouchDelegate(0, 100.px, 0, 100.px) {
+////            mBinding.progressMusicBar.setProgress((0..99).random())
+//        }
+
+
+
+        mBinding.progressMusicBar.addTouchSizeDelegate(top=50.px, bottom = 100.px)
+        mBinding.progressBarMusic.addTouchSizeDelegate(top=50.px, bottom = 50.px)
 
         lifecycleScope.launch(Dispatchers.IO) {
             while (true) {
