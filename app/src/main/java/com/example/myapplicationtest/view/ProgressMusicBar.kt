@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import com.example.myapplicationtest.ktx.px
 
@@ -43,6 +45,7 @@ class ProgressMusicBar @JvmOverloads constructor(
         strokeWidth = thumbRadius * 2
         strokeCap = Paint.Cap.ROUND
     }
+
 
     init {
         firstPaint.strokeWidth = strokeWidth
@@ -95,7 +98,42 @@ class ProgressMusicBar @JvmOverloads constructor(
     }
 
 
-    fun setProgress(currentProgress:Int){
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return when (event.action) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                cacluteProgress(event.x)
+                invalidate()
+                true
+            }
+
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+
+            else -> super.onTouchEvent(event)
+        }
+
+    }
+
+    /**
+     * 将滑动位置转换为当前进度
+     */
+    private fun cacluteProgress(x: Float) {
+        Log.d("TAG:cacluteProgress", "x=: $x")
+        val durX = if ((x - startX) >= 0) (x - startX) else 0
+        Log.d("TAG:cacluteProgress", "durX=: $durX")
+        var temp = durX.toFloat() / (endX - startX) * maxSize
+        if (temp < 0) {
+            temp = 0f
+        }
+        if (temp > maxSize) {
+            temp = maxSize.toFloat()
+        }
+        progress = temp
+        Log.d("TAG:cacluteProgress", "progress=: $progress")
+    }
+
+    fun setProgress(currentProgress: Int) {
         progress = currentProgress.toFloat()
         invalidate()
     }
