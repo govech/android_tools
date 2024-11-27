@@ -16,6 +16,7 @@ import com.example.myapplicationtest.databinding.ActivityHomeArticleBinding
 import com.example.myapplicationtest.db.AppDatabase
 import com.example.myapplicationtest.db.ReadedArticle
 import com.example.myapplicationtest.ktx.binding
+import com.example.myapplicationtest.ktx.showSnackbar
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
 import com.example.myapplicationtest.vm.ArticleViewModel
@@ -52,14 +53,15 @@ class HomeArticleActivity : BaseActivity() {
             val root = view.findViewById<MaterialCardView>(R.id.card)
             titleTv.text = data.title
             if (data.isReaded) {
-                root.setBackgroundColor(Color.parseColor("#CDDAC9C9"))
+                root.setBackgroundColor(Color.parseColor("#FFF9E6"))
             } else {
                 root.setBackgroundColor(Color.WHITE)
             }
         }
         mBinding.articleRv.adapter = mAdapter
         endlessScrollListener = EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            "正在加载".showToast(this)
+            mBinding.root.showSnackbar("正在加载")
+//            "正在加载".showToast(this)
             loadMoreData()
         }
         mBinding.articleRv.addOnScrollListener(endlessScrollListener)

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="8dp"
-    android:background="#DFE5E8"
+    android:background="#FFF"
     android:paddingEnd="8dp"
     tools:context=".activitys.HomeArticleActivity">
 

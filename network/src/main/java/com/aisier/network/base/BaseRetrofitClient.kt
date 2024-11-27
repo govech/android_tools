@@ -10,27 +10,34 @@ import java.util.concurrent.TimeUnit
 abstract class BaseRetrofitClient {
 
     companion object CLIENT {
-        private const val TIME_OUT = 5
+        private const val TIME_OUT = 5L
     }
 
     private val client: OkHttpClient by lazy {
-        val builder = OkHttpClient.Builder()
-            .addInterceptor(getHttpLoggingInterceptor())
-            .connectTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
-        handleBuilder(builder)
-        builder.build()
+        OkHttpClient.Builder()
+            .apply {
+                addInterceptor(getHttpLoggingInterceptor())
+                connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+                readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+                handleBuilder(this) // 提供额外的扩展点
+            }
+            .build()
     }
 
     private fun getHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val logging = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG) {
-            logging.level = HttpLoggingInterceptor.Level.BODY
-        } else {
-            logging.level = HttpLoggingInterceptor.Level.BASIC
+        return HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.BASIC
+            }
         }
-        return logging
     }
 
+    /**
+     * 供子类实现，提供对 OkHttpClient.Builder 的自定义处理逻辑。
+     */
     abstract fun handleBuilder(builder: OkHttpClient.Builder)
 
     open fun <Service> getService(serviceClass: Class<Service>, baseUrl: String): Service {
@@ -42,6 +49,8 @@ abstract class BaseRetrofitClient {
             .create(serviceClass)
     }
 
-    inline fun <reified T> create(baseUrl: String): T = getService(T::class.java, baseUrl)
+    inline fun <reified T> createService(baseUrl: String): T {
+        return getService(T::class.java, baseUrl)
+    }
 
 }

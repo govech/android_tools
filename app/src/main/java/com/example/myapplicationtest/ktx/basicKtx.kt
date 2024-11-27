@@ -5,7 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.content.res.Resources.getSystem
+import android.graphics.Color
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import java.lang.Math.round
 import kotlin.math.roundToInt
 
@@ -44,6 +48,36 @@ inline fun <T, R> with1(ass: T, block: T.() -> R): R {
 //Toast
 fun Int.showToast(context: Context, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(context, this, duration).show()
+}
+
+
+fun View.showSnackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(this, message, duration).show()
+}
+
+fun View.showSnackbarWithAction(
+    message: String,
+    actionText: String,
+    duration: Int = Snackbar.LENGTH_LONG,
+    action: () -> Unit
+) {
+    Snackbar.make(this, message, duration)
+        .setAction(actionText) { action() }
+        .show()
+}
+
+fun View.showCustomSnackbar(
+    message: String,
+    backgroundColor: Int,
+    textColor: Int = Color.WHITE,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    Snackbar.make(this, message, duration).apply {
+        view.setBackgroundColor(backgroundColor)
+        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+            .setTextColor(textColor)
+        show()
+    }
 }
 
 
