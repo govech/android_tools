@@ -91,21 +91,25 @@ class HomeArticleActivity : BaseActivity() {
         launchWithLoadingAndCollect(
             {
                 mViewModel.requestNet()
-            }
-        ) {
-            onSuccess = {
-                it?.let {
-                    dataList.clear()
-                    dataList.addAll(it.datas)
-                    mAdapter.notifyDataSetChanged()
+            },
+            {
+                onSuccess = {
+                    it?.let {
+                        dataList.clear()
+                        dataList.addAll(it.datas)
+                        mAdapter.notifyDataSetChanged()
+                    }
                 }
-            }
-            onError = {
-                Log.e("okhttp", "请求出错: $it")
+                onError = {
+//                    Log.e("okhttp", "请求出错: $it")
 //                toast("失败${it.message}")
-            }
+                }
 
-        }
+            })
+
+//        lifecycleScope.launch {
+//            mViewModel.requestNet()
+//        }
     }
 
     private fun loadMoreData() {

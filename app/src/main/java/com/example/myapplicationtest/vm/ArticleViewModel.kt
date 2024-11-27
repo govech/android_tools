@@ -39,18 +39,16 @@ class ArticleViewModel : BaseViewModel() {
 //    val uiState: StateFlow<ApiResponse<List<WxArticleBean>>> = _uiState.asStateFlow()
 
     suspend fun requestNet(page: Int = 0): ApiResponse<HomeArtBean> {
-        Log.d("TAG12345", "requestNet: ${Thread.currentThread().name}")
         return withContext(Dispatchers.IO) {
-            val dao = AppDatabase.getDatabase(MyApplication.mContext).articleDao()
+            val dao = AppDatabase.getDatabase(MyApplication.getContext()).articleDao()
             val articleList = dao.findAll()
             repository.fetchWxArticleFromNet(page).apply {
-                Log.d("TAG12345", "requestNet: ${Thread.currentThread().name}")
                 data?.datas?.map { bean ->
-                articleList.forEach {
-                    if (bean.id == it.id) {
-                        bean.isReaded = true
+                    articleList.forEach {
+                        if (bean.id == it.id) {
+                            bean.isReaded = true
+                        }
                     }
-                }
                 }
             }
         }

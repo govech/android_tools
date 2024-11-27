@@ -30,7 +30,7 @@ import com.example.myapplicationtest.base.MyApplication
  */
 val screenWidth: Int
     get() {
-        val wm = MyApplication.mContext.getSystemService(WINDOW_SERVICE) as WindowManager
+        val wm = MyApplication.getContext().getSystemService(WINDOW_SERVICE) as WindowManager
         val point = Point()
         when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             true -> wm.defaultDisplay.getRealSize(point)
@@ -44,7 +44,7 @@ val screenWidth: Int
  */
 val screenHeight: Int
     get() {
-        val wm = MyApplication.mContext.getSystemService(WINDOW_SERVICE) as WindowManager
+        val wm = MyApplication.getContext().getSystemService(WINDOW_SERVICE) as WindowManager
         val point = Point()
         when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             true -> wm.defaultDisplay.getRealSize(point)
@@ -70,7 +70,7 @@ val screenDPI
  * 获取屏幕方向
  **/
 val screenOrientation
-    get() = MyApplication.mContext.resources.configuration.orientation
+    get() = MyApplication.getContext().resources.configuration.orientation
 
 /**
  * 设置横屏
@@ -166,7 +166,7 @@ fun Activity.setNonFullScreen() {
  */
 val isScreenOn: Boolean
     get() {
-        val powerManager = MyApplication.mContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val powerManager = MyApplication.getContext().getSystemService(Context.POWER_SERVICE) as PowerManager
         return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             powerManager.isScreenOn
         } else {
@@ -184,7 +184,7 @@ val isScreenOff
  * 屏幕是否锁屏
  */
 val isScreenLocked
-    get() = (MyApplication.mContext.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardLocked
+    get() = (MyApplication.getContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardLocked
 
 /**
  * 屏幕是否解锁
@@ -230,7 +230,7 @@ fun Activity.setNonKeepScreenOn() {
  * @throws Settings.SettingNotFoundException
  */
 fun getScreenAutoLockTime() = try {
-    Settings.System.getInt(MyApplication.mContext.contentResolver, Settings.System.SCREEN_OFF_TIMEOUT)
+    Settings.System.getInt(MyApplication.getContext().contentResolver, Settings.System.SCREEN_OFF_TIMEOUT)
 } catch (e: Settings.SettingNotFoundException) {
     e.printStackTrace()
     -1
@@ -242,7 +242,7 @@ fun getScreenAutoLockTime() = try {
  */
 @RequiresPermission(android.Manifest.permission.WRITE_SETTINGS)
 fun setScreenAutoLockTime(time: Int): Boolean =
-    Settings.System.putInt(MyApplication.mContext.contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, time)
+    Settings.System.putInt(MyApplication.getContext().contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, time)
 
 /**
  * 设置永不自动锁屏，即自动锁屏时间为Int.MAX_VALUE

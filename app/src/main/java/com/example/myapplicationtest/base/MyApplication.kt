@@ -2,18 +2,28 @@ package com.example.myapplicationtest.base
 
 import android.app.Application
 import android.content.Context
+import android.widget.Toast
+import com.aisier.network.entity.NetworkEvents
 import com.danikula.videocache.Logger
 import com.dylanc.loadingstateview.LoadingStateView
 import com.example.myapplicationtest.loading.LoadingViewDelegate
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import xyz.doikki.videoplayer.BuildConfig
 import xyz.doikki.videoplayer.player.VideoViewConfig
 import xyz.doikki.videoplayer.player.VideoViewManager
+
 @HiltAndroidApp
-class MyApplication: Application() {
+class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        mContext = applicationContext
+        appContext = applicationContext
+
+
+        subscribeMsg()
+
 
         //播放器配置，注意：此为全局配置，按需开启
         VideoViewManager.setConfig(
@@ -55,14 +65,27 @@ class MyApplication: Application() {
         // VideoCache 日志
         Logger.setDebug(BuildConfig.DEBUG)
 
-        LoadingStateView.setViewDelegatePool{
+        LoadingStateView.setViewDelegatePool {
             register(LoadingViewDelegate())
+        }
+    }
+
+    private fun subscribeMsg() {
+        CoroutineScope(Dispatchers.Main).launch {
+            NetworkEvents.errorFlow.collect { message ->
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
 
     companion object {
-        lateinit var mContext: Context
+        private var appContext: Context? = null
+        fun getContext(): Context {
+            return appContext
+                ?: throw IllegalStateException("Application context is not initialized")
+        }
+
     }
 
 

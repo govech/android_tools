@@ -25,7 +25,7 @@ object VibratorUtil {
      */
     @JvmStatic
     val vibrator: Vibrator by lazy {
-        MyApplication.mContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        MyApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     }
 
     /**

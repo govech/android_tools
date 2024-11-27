@@ -1,6 +1,7 @@
 package com.example.myapplicationtest.net
 
 import com.aisier.network.base.BaseRepository
+import com.aisier.network.base.NetworkRequest
 import com.aisier.network.entity.ApiResponse
 import com.example.myapplicationtest.bean.HomeArtBean
 
@@ -12,9 +13,14 @@ class WxArticleRepository : BaseRepository() {
 
     suspend fun fetchWxArticleFromNet(page: Int): ApiResponse<HomeArtBean> {
 
-        return executeHttp {
-            mService.getWx(page)
-        }
+        return NetworkRequest.makeRequest({ mService.getWx(page) }, true)
+
+
+//        return executeHttp {
+//            mService.getWx(page)
+//        }
+
+
     }
 
 }

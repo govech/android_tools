@@ -20,10 +20,10 @@ open class BaseRepository {
     /**
      * 非后台返回错误，捕获到的异常
      */
-    private fun <T> handleHttpError(e: Throwable): ApiErrorResponse<T> {
+    private fun <T> handleHttpError(e: Throwable): ApiResponse<T> {
         if (BuildConfig.DEBUG) e.printStackTrace()
-//        handlingExceptions(e)
-        return ApiErrorResponse(e)
+        return ApiResponse.error(e)
+//        return ApiErrorResponse(e)
     }
 
     /**
@@ -33,8 +33,8 @@ open class BaseRepository {
         return if (data.isSuccess) {
             getHttpSuccessResponse(data)
         } else {
-//            handlingApiExceptions(data.errorCode, data.errorMsg)
-            ApiFailedResponse(data.errorCode, data.errorMsg)
+            ApiResponse.failed(data.errorCode, data.errorMsg)
+//            ApiFailedResponse(data.errorCode, data.errorMsg)
         }
     }
 
@@ -44,9 +44,9 @@ open class BaseRepository {
     private fun <T> getHttpSuccessResponse(response: ApiResponse<T>): ApiResponse<T> {
         val data = response.data
         return if (data == null || data is List<*> && (data as List<*>).isEmpty()) {
-            ApiEmptyResponse()
+            ApiResponse.empty()
         } else {
-            ApiSuccessResponse(data)
+            ApiResponse.success(data)
         }
     }
 

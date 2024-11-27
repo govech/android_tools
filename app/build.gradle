@@ -92,7 +92,6 @@ dependencies {
     //数据库调试
     debugImplementation 'com.guolindev.glance:glance:1.1.0'
 
-    // loading
-    implementation 'com.billy.android:gloading:1.0.0'
+
 
 }
