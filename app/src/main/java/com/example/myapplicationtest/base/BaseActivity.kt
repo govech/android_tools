@@ -1,31 +1,92 @@
 package com.example.myapplicationtest.base
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import androidx.viewbinding.ViewBinding
 import com.dylanc.loadingstateview.LoadingStateView
+import com.example.myapplicationtest.ktx.showToast
+import com.example.myapplicationtest.net.NetworkLiveData
+import com.glance.guolindev.Glance.initialize
 import logd
 
-open class BaseActivity : AppCompatActivity(), IUiView {
+abstract class BaseActivity : AppCompatActivity(), IUiView {
 
     var loadingStateView: LoadingStateView? = null
-// val loadingStateView = LoadingStateView(view, onReloadListener)
 
     private val mActivitys = mutableListOf<AppCompatActivity>()
 
-    private var progressBar: ProgressBar? = null
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivitys.add(this)
-//        toast("当前activity=${this::class.java.simpleName}")
-//        Log.d("hahhaa","当前activity=${this::class.java.simpleName}")
-//        logd("当前activity=${this::class.java.simpleName}","hahhaa")
         logd("当前activity=${this::class.java.simpleName}  ----- onCreate","hahhaa")
 
+        setupToolbar()
+        initialize()
+        initObservers()
+        setupListeners()
     }
+
+    // Toolbar 配置
+    protected open fun setupToolbar() {}
+
+    // 初始化界面元素（可选）
+    protected open fun initialize() {
+        observeNetworkChanges()
+    }
+
+    // 初始化 LiveData 或 ViewModel 观察者（可选）
+    protected open fun initObservers() {}
+
+    // 设置事件监听器（可选）
+    protected open fun setupListeners() {}
+
+
+
+
+    protected fun observeNetworkChanges() {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val liveData = NetworkLiveData(connectivityManager)
+        liveData.observe(this) { isConnected ->
+            if (!isConnected) {
+                "网络已断开,请检查".showToast(this)
+            }else{
+                "网络已连接".showToast(this)
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -51,11 +112,6 @@ open class BaseActivity : AppCompatActivity(), IUiView {
     }
 
     override fun showLoading() {
-//        if (progressBar == null) {
-//            progressBar = ProgressBar(this, null, android.R.attr.progressBarStyleLarge)
-//            progressBar!!.isIndeterminate = true
-//        }
-//        progressBar!!.show()
         if (loadingStateView == null) {
             loadingStateView = LoadingStateView(mActivitys.last())
         }
@@ -64,9 +120,6 @@ open class BaseActivity : AppCompatActivity(), IUiView {
     }
 
     override fun dismissLoading() {
-//        if (progressBar?.isShow() == true) {
-//            progressBar?.hide()
-//        }
         loadingStateView?.showContentView()
     }
 
