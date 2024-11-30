@@ -1,9 +1,11 @@
 package com.example.myapplicationtest.activitys
 
+import android.animation.ValueAnimator
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.palette.graphics.Palette
@@ -16,7 +18,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityBackGroundColorBinding
 import com.example.myapplicationtest.ktx.binding
-import kotlin.math.roundToInt
 
 
 /**
@@ -44,18 +45,25 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
     private fun hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
-                // Set the content to appear under the system bars so that the
-                // content doesn't resize when the system bars hide and show.
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                // Hide the nav bar and status bar
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+//        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+//                // Set the content to appear under the system bars so that the
+//                // content doesn't resize when the system bars hide and show.
+//                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                // Hide the nav bar and status bar
+//                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Android 11及以上，使用WindowInsetsController隐藏状态栏
+            window.insetsController?.hide(android.view.WindowInsets.Type.statusBars())
+        } else {
+            // 兼容 Android 10 以下
+            window.setFlags(
+                android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
     }
 
     private fun changeBackgroundColor() {
@@ -97,7 +105,6 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
 
-
     private fun getBitmap() {
         val requestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE) // 禁用磁盘缓存
@@ -113,11 +120,8 @@ class BackGroundColorActivity : BaseActivity() {
                     transition: Transition<in Bitmap?>?
                 ) {
                     mBinding.imgColorSample.setImageBitmap(resource)
-//                    Glide.with(this@BackGroundColorActivity)
-//                        .load(resource)
-//                        .into(mBinding.imgColorSample)
-                    builder = Palette.from(resource)
-                    changeBackgroundColor()
+                    val scaledBitmap = Bitmap.createScaledBitmap(resource, 100, 100, true)
+                    extractDominantColors(scaledBitmap, mBinding.clRoot)
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
@@ -134,40 +138,59 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
 
-    /**
-     * @param percent   透明度
-     * @param rgb   RGB值
-     * @return 最终设置过透明度的颜色值
-     */
-    private fun getTranslucentColor(percent: Float, rgb: Int): Int {
-        val blue = Color.blue(rgb)
-        val green = Color.green(rgb)
-        val red = Color.red(rgb)
-        var alpha = Color.alpha(rgb)
-        alpha = (alpha * percent).roundToInt()
-        return Color.argb(alpha, red, green, blue)
+
+
+
+
+
+    /***************************************************************************************************************************/
+
+
+    private fun extractDominantColors(bitmap: Bitmap, rootView: View) {
+        Palette.from(bitmap).generate { palette ->
+            // 提取前两种主色
+            val swatches = palette?.swatches
+                ?.sortedByDescending { it.population } // 按频率排序
+                ?.take(2) // 获取前两种颜色块
+
+            if (swatches != null && swatches.size >= 2) {
+                val color1 = swatches[0].rgb
+                val color2 = swatches[1].rgb
+
+                // 创建渐变色背景
+                val gradientDrawable = GradientDrawable(
+                    GradientDrawable.Orientation.TL_BR, // 渐变方向
+                    intArrayOf(color1, color2) // 渐变色的起始和结束颜色
+                )
+
+                applyBackgroundColorWithAnimation(mBinding.clRoot, gradientDrawable)
+            }
+        }
     }
 
-    /**
-     * 将颜色变浅
-     *
-     * @param rgb
-     * @return
-     */
-    private fun blurColor(rgb: Int): Int {
-        //三原色，每个原色站8个bit
-        var red = rgb shr 16 and 0xff
-        var green = rgb shr 8 and 0xff
-        var bule = rgb and 0xff
 
-        //#000000为黑色，#FFFFFF为白色，所以值越小，颜色越深,反之，颜色越浅
-        val ratdio = 1.5f
-        red = Math.min(255f, red * ratdio).toInt()
-        green = Math.min(255f, green * ratdio).toInt()
-        bule = Math.min(255f, bule * ratdio).toInt()
-        return Color.argb(255, red, green, bule)
+
+    // 使用 ValueAnimator 动画平滑过渡背景颜色
+    private fun applyBackgroundColorWithAnimation(rootView: View, gradientDrawable: GradientDrawable) {
+        // 获取当前的背景颜色
+        val oldColor = (rootView.background as? GradientDrawable)?.colors?.get(0) ?: Color.WHITE
+        val newColor = gradientDrawable.colors?.get(0) // 获取渐变的第一个颜色
+
+        val colorAnimator = ValueAnimator.ofObject(android.animation.ArgbEvaluator(), oldColor, newColor)
+        colorAnimator.duration = 1000 // 设置动画时长为1秒
+
+        colorAnimator.addUpdateListener { animator ->
+            val animatedValue = animator.animatedValue as Int
+
+            // 更新渐变色的起始颜色
+            gradientDrawable.setColor(animatedValue)
+            rootView.background = gradientDrawable
+        }
+
+        colorAnimator.start() // 启动动画
     }
 
+    /***************************************************************************************************************************/
 
 
     companion object {
