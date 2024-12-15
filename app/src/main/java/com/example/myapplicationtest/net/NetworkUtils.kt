@@ -36,10 +36,14 @@ object NetworkUtils {
             }
 
             return response.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ""
         } finally {
             connection?.disconnect()
         }
     }
+
 
     fun post(urlString: String, requestBody: String): String {
         var connection: HttpURLConnection? = null

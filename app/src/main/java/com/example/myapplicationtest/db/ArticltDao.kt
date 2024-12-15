@@ -16,12 +16,11 @@ interface ArticltDao {
     @Update
     fun updateArticle(article: ReadedArticle)
 
-    @Query("select * from ReadedArticle")
+    @Query("select * from  readed_table")
     fun findAll(): List<ReadedArticle>
 
-    @Query("select * from ReadedArticle where id =:id")
+    @Query("select * from readed_table where id =:id")
     fun findReadedArticle(id: Int): List<ReadedArticle>
-
 
 }
 

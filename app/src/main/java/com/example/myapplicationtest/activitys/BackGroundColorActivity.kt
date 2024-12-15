@@ -7,23 +7,66 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
+
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
-import click
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityBackGroundColorBinding
 import com.example.myapplicationtest.ktx.binding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import logd
 
 
 /**
  * 随即图片获取 API
  * https://cdn.seovx.com/d/
  */
+
+
+/**
+ * 扩展协程的倒计时功能。
+ * @param seconds 倒计时总时间（秒）。
+ * @param interval 间隔时间（毫秒）。
+ * @param onTick 每次倒计时的回调，返回剩余时间。
+ * @param onFinish 倒计时完成时的回调。
+ */
+suspend fun CoroutineScope.startCountdown(
+    seconds: Int,
+    interval: Long = 1000,
+    onTick: (Int) -> Unit,
+    onFinish: () -> Unit
+): Job {
+    return launch(Dispatchers.IO) { // 启动在 IO 线程中
+        for (timeLeft in seconds downTo 1) {
+            if (!isActive) break // 检查协程是否被取消
+            withContext(Dispatchers.Main) { // 切换到主线程更新 UI
+                onTick(timeLeft)
+            }
+            delay(interval) // 延迟 1 秒
+        }
+        withContext(Dispatchers.Main) { // 切换到主线程通知完成
+            onFinish()
+        }
+    }
+}
+
 
 class BackGroundColorActivity : BaseActivity() {
 
@@ -38,22 +81,24 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
     private fun initView() {
-        mBinding.btcChange.click {
+
+//        mBinding.btcChange.click {
 //            flag = !flag
-            getBitmap()
+
+        lifecycleScope.launch {
+            while (true) {
+                if (!isActive) break
+                logd("qqqqqqqq")
+                getBitmap()
+                delay(8000)
+            }
+
+
         }
+//        }
     }
 
     private fun hideSystemUI() {
-//        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
-//                // Set the content to appear under the system bars so that the
-//                // content doesn't resize when the system bars hide and show.
-//                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                // Hide the nav bar and status bar
-//                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                or View.SYSTEM_UI_FLAG_FULLSCREEN)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11及以上，使用WindowInsetsController隐藏状态栏
             window.insetsController?.hide(android.view.WindowInsets.Type.statusBars())
@@ -107,6 +152,7 @@ class BackGroundColorActivity : BaseActivity() {
 
     private fun getBitmap() {
         val requestOptions = RequestOptions()
+            .error(R.drawable.error)
             .diskCacheStrategy(DiskCacheStrategy.NONE) // 禁用磁盘缓存
             .skipMemoryCache(true)                // 禁用内存缓存
 
@@ -138,11 +184,6 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
 
-
-
-
-
-
     /***************************************************************************************************************************/
 
 
@@ -169,14 +210,17 @@ class BackGroundColorActivity : BaseActivity() {
     }
 
 
-
     // 使用 ValueAnimator 动画平滑过渡背景颜色
-    private fun applyBackgroundColorWithAnimation(rootView: View, gradientDrawable: GradientDrawable) {
+    private fun applyBackgroundColorWithAnimation(
+        rootView: View,
+        gradientDrawable: GradientDrawable
+    ) {
         // 获取当前的背景颜色
         val oldColor = (rootView.background as? GradientDrawable)?.colors?.get(0) ?: Color.WHITE
         val newColor = gradientDrawable.colors?.get(0) // 获取渐变的第一个颜色
 
-        val colorAnimator = ValueAnimator.ofObject(android.animation.ArgbEvaluator(), oldColor, newColor)
+        val colorAnimator =
+            ValueAnimator.ofObject(android.animation.ArgbEvaluator(), oldColor, newColor)
         colorAnimator.duration = 1000 // 设置动画时长为1秒
 
         colorAnimator.addUpdateListener { animator ->
@@ -195,11 +239,9 @@ class BackGroundColorActivity : BaseActivity() {
 
     companion object {
         val imgList = listOf(
-            "https://img.xjh.me/random_img.php",
-            "https://cdn.seovx.com/d/",
-            "https://eonegh.com/go/aHR0cHM6Ly9jZG4uc2VvdnguY29tLz9tb209MzAy",
-            "https://eonegh.com/go/aHR0cHM6Ly9jZG4uc2VvdnguY29tL2QvP21vbT0zMDI",
-            "https://img.xjh.me/random_img.php"
+            "https://bingimg.ee123.net/bingimg/2015/05/29.jpg",
+            "https://cn.bing.com/th?id=OHR.WildPoinsettia_ZH-CN9570708784_1920x1080.jpg",
+            "https://bingimg.ee123.net/bingimg/2012/01/04.jpg"
         )
     }
 }

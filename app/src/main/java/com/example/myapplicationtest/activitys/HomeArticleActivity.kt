@@ -81,7 +81,7 @@ class HomeArticleActivity : BaseActivity() {
         val articleList = dao.findReadedArticle(bean.id)
         val article = ReadedArticle(bean.link, bean.id, true)
 
-        if (articleList.isNullOrEmpty()) {
+        if (articleList.isEmpty()) {
             dao.insertArticle(article)
         } else {
             dao.updateArticle(article)
