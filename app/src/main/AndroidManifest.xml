@@ -70,6 +70,7 @@
         <activity
             android:name=".activitys.VideoActivity"
             android:exported="false" />
+        <activity android:name=".activitys.HandlerActivity"/>
         <activity
             android:name=".activitys.MainActivity"
             android:exported="true">

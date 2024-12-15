@@ -71,7 +71,15 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initRv() {
-        val list = listOf("玩安卓", "自定义view", "apk提取", "视频播放", "音乐播放", "猫咪图片")
+        val list = listOf(
+            "玩安卓",
+            "自定义view",
+            "apk提取",
+            "视频播放",
+            "音乐播放",
+            "猫咪图片",
+            "Handler正确使用"
+        )
         val myAapter: QuickBindingAdapter<String, ItemCusviewBinding> = QuickBindingAdapter(
             this,
             dataList = list,
@@ -136,8 +144,11 @@ class MainActivity : BaseActivity() {
                     startActivityKt<MusicActivity>()
                 }
 
-                else -> {
+                list[5] -> {
                     startActivityKt<ImageMaomiActivity>()
+                }
+                else -> {
+                    startActivityKt<HandlerActivity>()
                 }
             }
         }
