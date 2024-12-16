@@ -22,7 +22,15 @@ class QuickAdapter<T>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(layoutresId, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view).apply {
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = dataList[position]
+                    onItemClickListener?.invoke(view, item)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,9 +45,6 @@ class QuickAdapter<T>(
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: T) {
             bindView(view, item)
-            itemView.setOnClickListener {
-                onItemClickListener?.invoke(view, item)
-            }
         }
     }
 }
