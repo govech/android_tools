@@ -7,20 +7,14 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
-
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.databinding.ActivityBackGroundColorBinding
 import com.example.myapplicationtest.ktx.binding
@@ -152,7 +146,6 @@ class BackGroundColorActivity : BaseActivity() {
 
     private fun getBitmap() {
         val requestOptions = RequestOptions()
-            .error(R.drawable.error)
             .diskCacheStrategy(DiskCacheStrategy.NONE) // 禁用磁盘缓存
             .skipMemoryCache(true)                // 禁用内存缓存
 
