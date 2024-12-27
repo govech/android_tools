@@ -6,7 +6,9 @@ import android.widget.Toast
 import com.aisier.network.entity.NetworkEvents
 import com.danikula.videocache.Logger
 import com.dylanc.loadingstateview.LoadingStateView
+import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.loading.LoadingViewDelegate
+import com.example.myapplicationtest.net.NetworkViewModel
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,7 @@ class MyApplication : Application() {
         super.onCreate()
         appContext = applicationContext
 
-
+        observeNetworkChanges()
         subscribeMsg()
 
 
@@ -78,6 +80,25 @@ class MyApplication : Application() {
         }
     }
 
+
+    private val networkViewModel: NetworkViewModel by lazy {
+        NetworkViewModel(this)
+    }
+    private var lastNetworkState: Boolean? = null // 用于记录上一次的网络状态
+    private fun observeNetworkChanges() {
+        CoroutineScope(Dispatchers.Main).launch {
+            networkViewModel.networkStatus.collect { isConnected ->
+                if (isConnected != null && lastNetworkState != isConnected) {
+                    lastNetworkState = isConnected
+                    if (isConnected) {
+                        "网络已连接".showToast(this@MyApplication)
+                    } else {
+                        "网络已断开,请检查".showToast(this@MyApplication)
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         private var appContext: Context? = null
