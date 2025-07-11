@@ -56,6 +56,9 @@ class ViewListActivity : BaseActivity() {
                 TITLE_NAME[6] -> {
                     startActivityKt<SphericalActivity>()
                 }
+                TITLE_NAME[7] -> {
+                    startActivityKt<FlowLayoutActivity>()
+                }
 
 
                 else -> {
@@ -96,7 +99,8 @@ class ViewListActivity : BaseActivity() {
             "RV列表动画效果",
             "CameraX",
             "根据图片改变背景颜色",
-            "跟随手指的圆球"
+            "跟随手指的圆球",
+            "FlowLayout"
         )
         private val REQUIRED_PERMISSIONS =
             mutableListOf(

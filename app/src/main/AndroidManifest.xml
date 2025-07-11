@@ -29,6 +29,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.FlowLayoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.SphericalActivity"
             android:exported="false" />
         <activity
