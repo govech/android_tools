@@ -29,6 +29,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.SphericalActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.ImageMaomiActivity"
             android:exported="false" />
         <activity
@@ -70,7 +73,7 @@
         <activity
             android:name=".activitys.VideoActivity"
             android:exported="false" />
-        <activity android:name=".activitys.HandlerActivity"/>
+        <activity android:name=".activitys.HandlerActivity" />
         <activity
             android:name=".activitys.MainActivity"
             android:exported="true">

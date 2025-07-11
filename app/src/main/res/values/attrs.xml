@@ -10,4 +10,9 @@
         <attr name="cornerRadius" format="dimension" />
         <attr name="backgroundColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="DraggableCircleView">
+        <attr name="circleColor" format="color|reference" />
+        <attr name="circleRadius" format="dimension" />
+    </declare-styleable>
 </resources>

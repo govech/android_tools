@@ -53,6 +53,10 @@ class ViewListActivity : BaseActivity() {
                     startActivityKt<BackGroundColorActivity>()
                 }
 
+                TITLE_NAME[6] -> {
+                    startActivityKt<SphericalActivity>()
+                }
+
 
                 else -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -91,7 +95,8 @@ class ViewListActivity : BaseActivity() {
             "tts",
             "RV列表动画效果",
             "CameraX",
-            "根据图片改变背景颜色"
+            "根据图片改变背景颜色",
+            "跟随手指的圆球"
         )
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
