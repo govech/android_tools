@@ -68,18 +68,43 @@ object ApkTool {
     }
 
     fun getApplist(context: Context): MutableList<AppInfoData> {
+        // 获取PackageManager实例，用于查询已安装应用信息
         val packageManager: PackageManager = context.packageManager
+        // 获取所有已安装的应用程序信息列表
         val installedApplications = packageManager.getInstalledApplications(0)
+        // 创建一个空的AppInfoData列表，用于存储应用信息
         val appInfoDataList = mutableListOf<AppInfoData>()
+        // 遍历所有已安装的应用程序信息
         for (appInfo in installedApplications) {
+            // 获取应用程序的标签（名称）
             val appName = packageManager.getApplicationLabel(appInfo) as String
+            // 获取应用程序的包名
             val packageName = appInfo.packageName
+            // 获取应用程序的图标
             val appIcon = packageManager.getApplicationIcon(appInfo)
+            // 获取应用程序APK文件的路径
             val sourceDir = appInfo.sourceDir
-            val item = AppInfoData(appIcon, appName, sourceDir)
+
+            // 获取应用版本名称
+            val versionName = try {
+                packageManager.getPackageInfo(packageName, 0).versionName ?: "N/A"
+            } catch (e: PackageManager.NameNotFoundException) {
+                "N/A"
+            }
+            // 获取应用版本号
+            val versionCode = try {
+                packageManager.getPackageInfo(packageName, 0).versionCode
+            } catch (e: PackageManager.NameNotFoundException) {
+                -1
+            }
+
+            // 创建AppInfoData对象，封装应用信息
+            val item = AppInfoData(appIcon, appName, sourceDir, packageName, versionName, versionCode)
+            // 将应用信息添加到列表中
             appInfoDataList.add(item)
 //            Log.d("AppInfo", "App Name: $appName, Package Name: $packageName")
         }
+        // 返回包含所有应用信息的列表
         return appInfoDataList
     }
 }

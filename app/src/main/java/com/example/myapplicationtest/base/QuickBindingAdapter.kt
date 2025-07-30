@@ -22,9 +22,13 @@ class QuickBindingAdapter<T, VB : ViewBinding>(
 
 
     private var onItemClickListener: ((View, T) -> Unit)? = null
+    private var onItemLongClickListener: ((View, T) -> Boolean)? = null
 
     fun setOnItemClickListener(listener: (View, T) -> Unit) {
         onItemClickListener = listener
+    }
+    fun setOnItemLongClickListener(listener: (View, T) -> Boolean) {
+        onItemLongClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuickViewHolder {
@@ -47,6 +51,9 @@ class QuickBindingAdapter<T, VB : ViewBinding>(
             bindView(binding, item, this@QuickViewHolder)
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(binding.root, item)
+            }
+            itemView.setOnLongClickListener {
+                onItemLongClickListener?.invoke(binding.root, item) == true
             }
         }
 

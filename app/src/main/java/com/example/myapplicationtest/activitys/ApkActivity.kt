@@ -60,6 +60,8 @@ class ApkActivity : BaseActivity() {
             dataList = list
         ) { binding, item, holder ->
             binding.tvName.text = item.appName
+            binding.tvPackageName.text = item.packageName
+            binding.tvVersionName.text = "${item.versionName} \\ ${item.versionCode}"
             Glide.with(this).load(item.icon).into(binding.imgIcon)
             holder.onClick<ImageView>(R.id.img_icon) {
                 "局部点击".showToast(this)
@@ -68,9 +70,13 @@ class ApkActivity : BaseActivity() {
 
         binding.recyclerView.adapter = myadapter
         myadapter.setOnItemClickListener { view, appInfoData ->
+            //todo
+        }
+        myadapter.setOnItemLongClickListener { view, appInfoData ->
             val appInfo = appInfoData
             ApkTool.copyFileToTargetPath(appInfo.sourceDir, appInfo.appName)
             "已成功提取文件到/aaa/${appInfo.appName}.apk".showToast(this)
+            true
         }
 
     }

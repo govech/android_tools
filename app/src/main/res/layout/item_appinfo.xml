@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#D7E5F2"
     android:padding="8dp">
 
     <ImageView
-        android:background="#8EABC3"
         android:id="@+id/img_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -22,19 +22,28 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="TextView"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_icon" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_package_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:text="点击此处提取apk安装文件"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_icon"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:text="package_name"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/img_icon"
         app:layout_constraintTop_toTopOf="@+id/img_icon" />
+
+    <TextView
+        android:id="@+id/tv_versionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/tv_package_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_package_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
