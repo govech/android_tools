@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -11,15 +12,22 @@ import com.example.myapplicationtest.ApkTool
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickBindingAdapter
+import com.example.myapplicationtest.bean.AppInfoData
 import com.example.myapplicationtest.databinding.ActivityApkBinding
 import com.example.myapplicationtest.databinding.ItemAppinfoBinding
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
+import hide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import show
 
 class ApkActivity : BaseActivity() {
 
 
     private val binding by binding(ActivityApkBinding::inflate)
+    private lateinit var myadapter: QuickBindingAdapter<AppInfoData, ItemAppinfoBinding>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +43,7 @@ class ApkActivity : BaseActivity() {
                 LinearLayoutManager.VERTICAL
             )
         )
-        val list = ApkTool.getApplist(this)
+
 //        val myadapter = ApkListAdapter(this, list)
 //        recyclerView.adapter = myadapter
 //        myadapter.setClickListener { _, position ->
@@ -52,12 +60,12 @@ class ApkActivity : BaseActivity() {
 //            Glide.with(this).load(item.icon).into(iconImg)
 //        }
 
-        val myadapter = QuickBindingAdapter(
+         myadapter = QuickBindingAdapter(
             this,
             inflateBinding = { inflater, parent ->
                 ItemAppinfoBinding.inflate(inflater, parent, false)
             },
-            dataList = list
+            dataList = mutableListOf()
         ) { binding, item, holder ->
             binding.tvName.text = item.appName
             binding.tvPackageName.text = item.packageName
@@ -79,7 +87,24 @@ class ApkActivity : BaseActivity() {
             true
         }
 
+        loadAppList()
     }
+
+
+    private fun loadAppList() {
+        // 显示加载进度条
+        binding.progressBar.show()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val list = ApkTool.getApplist(this@ApkActivity)
+            withContext(Dispatchers.Main) {
+                binding.progressBar.hide()
+                myadapter.updateData(list)
+            }
+
+        }
+
+    }
+
 
     companion object {
         fun toActivity(activity: Activity) {

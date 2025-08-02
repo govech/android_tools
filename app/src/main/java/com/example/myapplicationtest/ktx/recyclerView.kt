@@ -3,7 +3,6 @@ package com.example.myapplicationtest.ktx
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,7 @@ import com.example.myapplicationtest.databinding.ItemCusviewBinding
  * 快速创建recyclerview
  */
 fun Context.createRecycleRView(
-    list: List<String>,
+    list: MutableList<String>,
     listener: ((View, String) -> Unit)? = null
 ): RecyclerView {
     return RecyclerView(this).apply {

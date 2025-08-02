@@ -10,13 +10,12 @@ import androidx.viewbinding.ViewBinding
 import com.example.myapplicationtest.databinding.ItemCusviewBinding
 
 
-
 class QuickBindingAdapter<T, VB : ViewBinding>(
     private val context: Context,
     private val inflateBinding: (LayoutInflater, ViewGroup) -> VB = { inflater, parent ->
         ItemCusviewBinding.inflate(inflater, parent, false) as VB
     },
-    private val dataList: List<T>,
+    private val dataList: MutableList<T>,
     private val bindView: (VB, T, QuickBindingAdapter<T, VB>.QuickViewHolder) -> Unit
 ) : RecyclerView.Adapter<QuickBindingAdapter<T, VB>.QuickViewHolder>() {
 
@@ -27,6 +26,7 @@ class QuickBindingAdapter<T, VB : ViewBinding>(
     fun setOnItemClickListener(listener: (View, T) -> Unit) {
         onItemClickListener = listener
     }
+
     fun setOnItemLongClickListener(listener: (View, T) -> Boolean) {
         onItemLongClickListener = listener
     }
@@ -44,6 +44,12 @@ class QuickBindingAdapter<T, VB : ViewBinding>(
     override fun onBindViewHolder(holder: QuickViewHolder, position: Int) {
         val item = dataList[position]
         holder.bind(item)
+    }
+
+    fun updateData(list: MutableList<T>) {
+        dataList.clear()
+        dataList.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class QuickViewHolder(private val binding: VB) : RecyclerView.ViewHolder(binding.root) {

@@ -1,23 +1,16 @@
 package com.example.myapplicationtest.activitys
 
 import android.Manifest
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import click
-import com.aisier.network.toast
-import com.example.myapplicationtest.R
 import com.example.myapplicationtest.base.BaseActivity
 import com.example.myapplicationtest.base.QuickBindingAdapter
 import com.example.myapplicationtest.databinding.ActivityMainBinding
@@ -29,9 +22,7 @@ import com.example.myapplicationtest.ktx.apply1
 import com.example.myapplicationtest.ktx.binding
 import com.example.myapplicationtest.ktx.showToast
 import com.example.myapplicationtest.ktx.startActivityKt
-import com.example.myapplicationtest.view.GuideView
 import com.permissionx.guolindev.PermissionX
-import hide
 import toast
 
 
@@ -71,7 +62,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initRv() {
-        val list = listOf(
+        val list = mutableListOf(
             "玩安卓",
             "自定义view",
             "apk提取",
