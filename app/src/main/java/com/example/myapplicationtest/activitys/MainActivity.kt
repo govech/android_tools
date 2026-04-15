@@ -65,6 +65,9 @@ class MainActivity : BaseActivity() {
         val list = mutableListOf(
             "玩安卓",
             "自定义view",
+            "嵌套滑动场景一",
+            "嵌套滑动场景二",
+            "嵌套滑动场景三",
             "apk提取",
             "视频播放",
             "音乐播放",
@@ -98,6 +101,18 @@ class MainActivity : BaseActivity() {
                 }
 
                 list[2] -> {
+                    startActivityKt<ViewPagerInRvActivity>()
+                }
+
+                list[3] -> {
+                    startActivityKt<RvInViewPagerActivity>()
+                }
+
+                list[4] -> {
+                    startActivityKt<RvInRvActivity>()
+                }
+
+                list[5] -> {
                     val dialog = SimpleDialog(this) {
                         toast("你好")
                     }.apply1 {
@@ -127,15 +142,15 @@ class MainActivity : BaseActivity() {
 
                 }
 
-                list[3] -> {
+                list[6] -> {
                     startActivityKt<VideoActivity>()
                 }
 
-                list[4] -> {
+                list[7] -> {
                     startActivityKt<MusicActivity>()
                 }
 
-                list[5] -> {
+                list[8] -> {
                     startActivityKt<ImageMaomiActivity>()
                 }
                 else -> {
