@@ -8,7 +8,7 @@
     android:background="@color/white"
     tools:context=".activitys.MainActivity">
 
-    <com.example.myapplicationtest.view.HeadbackView
+    <com.sword.tools.view.HeadbackView
         android:id="@+id/headbackView"
         android:layout_width="0dp"
         android:layout_height="150dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:roundedCorner="bottomRight" />
 
-    <com.example.myapplicationtest.view.CornerView
+    <com.sword.tools.view.CornerView
         android:id="@+id/textView"
         android:layout_width="100dp"
         android:layout_height="100dp"

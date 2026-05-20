@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".activitys.SphericalActivity">
 
-    <com.example.myapplicationtest.view.DraggableCircleView
+    <com.sword.tools.view.DraggableCircleView
         android:id="@+id/draggableCircleView"
         android:layout_width="40dp"
         android:layout_height="50dp"

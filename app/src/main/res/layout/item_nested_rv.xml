@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <com.example.myapplicationtest.view.NestedViewPager
+    <com.sword.tools.view.NestedViewPager
         android:id="@+id/itemViewPager"
         android:layout_width="0dp"
         android:layout_height="200dp"

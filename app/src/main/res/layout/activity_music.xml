@@ -8,7 +8,7 @@
     tools:context=".activitys.MusicActivity">
 
 
-    <com.example.myapplicationtest.view.ProgressMusicBar
+    <com.sword.tools.view.ProgressMusicBar
         android:id="@+id/progressMusicBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

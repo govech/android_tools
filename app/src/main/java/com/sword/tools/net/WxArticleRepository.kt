@@ -1,0 +1,26 @@
+package com.sword.tools.net
+
+import com.aisier.network.base.BaseRepository
+import com.aisier.network.base.NetworkRequest
+import com.aisier.network.entity.ApiResponse
+import com.sword.tools.bean.HomeArtBean
+
+class WxArticleRepository : BaseRepository() {
+
+    private val mService by lazy {
+        RetrofitClient.service
+    }
+
+    suspend fun fetchWxArticleFromNet(page: Int): ApiResponse<HomeArtBean> {
+
+        return NetworkRequest.makeRequest({ mService.getWx(page) }, true)
+
+
+//        return executeHttp {
+//            mService.getWx(page)
+//        }
+
+
+    }
+
+}

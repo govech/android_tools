@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplicationtest'
+    namespace 'com.sword.tools'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.myapplicationtest"
+        applicationId "com.sword.tools"
         minSdk 24
         targetSdk 34
         versionCode 1

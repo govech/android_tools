@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <com.example.myapplicationtest.view.NestedViewPager
+    <com.sword.tools.view.NestedViewPager
         android:id="@+id/nestedViewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
