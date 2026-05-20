@@ -78,6 +78,14 @@
             android:exported="false" />
         <activity android:name=".activitys.HandlerActivity" />
         <activity
+            android:name=".activitys.ViewPagerInRvActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.RvInViewPagerActivity"
+            android:exported="false" />
+        <activity android:name=".activitys.RvInRvActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.MainActivity"
             android:exported="true">
             <intent-filter>

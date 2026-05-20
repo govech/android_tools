@@ -1,7 +1,10 @@
 package com.example.myapplicationtest.activitys
 
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.example.myapplicationtest.adapter.NestedRvInVpAdapter
@@ -27,8 +30,71 @@ class RvInViewPagerActivity : BaseActivity() {
 
     private val binding by binding(ActivityRvInViewPagerBinding::inflate)
 
+    private val dotSize = dpToPx(8)
+    private val dotSizeSelected = dpToPx(10)
+    private val dotSpacing = dpToPx(8)
+    private val defaultColor = ContextCompat.getColor(this, android.R.color.darker_gray)
+    private val selectedColor = 0xFFFF6B00.toInt() // 橙色
+
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+
     override fun initialize() {
+        val pageCount = 3
+        // 关键：设置 offscreenPageLimit 使三页同时加载
+        binding.nestedViewPager.offscreenPageLimit = 2
         binding.nestedViewPager.adapter = NestedVpAdapterForViewPager()
+
+        // 构建圆点指示器
+        buildIndicators(pageCount)
+
+        // 页面变化监听
+        binding.nestedViewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(position: Int) {
+                updateIndicators(position)
+            }
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+    }
+
+    private fun buildIndicators(pageCount: Int) {
+        binding.indicatorContainer.removeAllViews()
+        for (i in 0 until pageCount) {
+            val dot = View(this).apply {
+                background = createDot(if (i == 0) selectedColor else defaultColor, if (i == 0) dotSizeSelected else dotSize)
+            }
+            val marginStart = if (i == 0) 0 else dotSpacing
+            val marginEnd = if (i == pageCount - 1) 0 else dotSpacing
+            val params = LinearLayout.LayoutParams(dotSize, dotSize)
+            params.setMargins(marginStart, 0, marginEnd, 0)
+            binding.indicatorContainer.addView(dot, params)
+        }
+    }
+
+    private fun updateIndicators(selectedPosition: Int) {
+        val childCount = binding.indicatorContainer.childCount
+        for (i in 0 until childCount) {
+            val dot = binding.indicatorContainer.getChildAt(i)
+            val isSelected = i == selectedPosition
+            val size = if (isSelected) dotSizeSelected else dotSize
+            val color = if (isSelected) selectedColor else defaultColor
+
+            val params = dot.layoutParams
+            params.width = size
+            params.height = size
+            dot.layoutParams = params
+            dot.background = createDot(color, size)
+        }
+    }
+
+    private fun createDot(color: Int, size: Int): GradientDrawable {
+        return GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(color)
+            setSize(size, size)
+        }
     }
 }
 
