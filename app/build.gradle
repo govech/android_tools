@@ -8,6 +8,7 @@ plugins {
 android {
     namespace 'com.sword.tools'
     compileSdk 34
+    buildToolsVersion "36.0.0"
 
     defaultConfig {
         applicationId "com.sword.tools"
