@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ class ApkActivity : BaseActivity() {
 
     private val binding by binding(ActivityApkBinding::inflate)
     private lateinit var myadapter: QuickBindingAdapter<AppInfoData, ItemAppinfoBinding>
+    private var allAppList: MutableList<AppInfoData> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +79,9 @@ class ApkActivity : BaseActivity() {
         }
 
         binding.recyclerView.adapter = myadapter
+        binding.etSearch.doAfterTextChanged { editable ->
+            applySearch(editable?.toString().orEmpty())
+        }
         myadapter.setOnItemClickListener { view, appInfoData ->
             //todo
         }
@@ -98,13 +103,27 @@ class ApkActivity : BaseActivity() {
             val list = ApkTool.getApplist(this@ApkActivity)
             withContext(Dispatchers.Main) {
                 binding.progressBar.hide()
-                myadapter.updateData(list)
+                allAppList = list
+                applySearch(binding.etSearch.text.toString())
             }
 
         }
 
     }
 
+
+    private fun applySearch(keyword: String) {
+        val kw = keyword.trim()
+        val result = if (kw.isEmpty()) {
+            allAppList
+        } else {
+            allAppList.filter {
+                it.appName.contains(kw, ignoreCase = true) ||
+                    it.packageName.contains(kw, ignoreCase = true)
+            }
+        }
+        myadapter.updateData(result.toMutableList())
+    }
 
     companion object {
         fun toActivity(activity: Activity) {
